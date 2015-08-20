@@ -1,0 +1,21 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script/register -R spec -u bdd -w",
+    "start": "node_modules/nodemon/bin/nodemon.js src/index.coffee"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "coffee-coverage": "^0.6.3",
+    "mocha": "^2.2.5",
+    "should": "^7.0.4"
+  },
+  "dependencies": {
+    "istanbul": "^0.3.18",
+    "nodemon": "^1.4.1"
+  }
+}
