@@ -1,0 +1,25 @@
+{
+  "name": "web-client",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JackThorp",
+  "license": "",
+  "dependencies": {
+    "babelify": "^6.2.0",
+    "bootstrap": "^3.3.5",
+    "browserify": "^11.0.1",
+    "gulp": "^3.9.0",
+    "gulp-serve": "^1.0.0",
+    "gulp-streamify": "^1.0.0",
+    "gulp-util": "^3.0.6",
+    "lodash": "^3.10.1",
+    "ractivate": "^0.2.0",
+    "ractive": "^0.7.3",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {}
+}
