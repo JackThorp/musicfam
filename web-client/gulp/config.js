@@ -15,8 +15,13 @@ module.exports.paths = {
   html: {
     src: './src/index.html',
     dest: './dist/'
-  }
+  },
 
+  less: {
+    src: './src/css/styles.less',
+    dest: './dist/css',
+    watch: ['./src/**/*.less']
+  }
 }
 
 module.exports.__testdir = '/test';

@@ -12,6 +12,7 @@
     "bootstrap": "^3.3.5",
     "browserify": "^11.0.1",
     "gulp": "^3.9.0",
+    "gulp-less": "^3.0.3",
     "gulp-serve": "^1.0.0",
     "gulp-streamify": "^1.0.0",
     "gulp-util": "^3.0.6",
