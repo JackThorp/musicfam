@@ -6,7 +6,7 @@ module.exports = function(gulp) {
 
   return function() {
     return gulp.src(paths.less.src)
-      .pipe(less({compress: true}))
+      .pipe(less())
       .pipe(gulp.dest(paths.less.dest));
 
   }

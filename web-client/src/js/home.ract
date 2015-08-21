@@ -1,0 +1,40 @@
+<div class="container">
+  
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Welcome To PlayList!</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>URLS</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each urls}}
+          <tr>
+            <td>{{url}}</td>
+            <td></td>
+          </tr>
+          {{/each}}
+          <tr>
+            <td>
+              <input type="text" class="form-control" placeholder="new url ..." value="{{url}}">
+            </td>
+            <td>
+              <button type="submit" class="btn btn-success btn-block center-block" on-click="postURL:{{url}}">
+                Add
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
