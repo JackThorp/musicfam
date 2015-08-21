@@ -3,7 +3,8 @@
 var gulp  = require('./gulp')([
     'build',
     'vendor',
-    'html'
+    'html',
+    'test'
 ]);
 
 var serve = require('gulp-serve');

@@ -19,5 +19,5 @@ module.exports.paths = {
 
 }
 
-
+module.exports.__testdir = '/test';
 
