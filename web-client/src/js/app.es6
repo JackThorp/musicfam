@@ -1,36 +1,8 @@
 import Ractive from 'ractive';
-import html from './home.ract';
-import axios from 'axios';
+import Router from './services/router.es6';
 
-var urls = [ {url: 'www.bla.com'}, {url: 'www.foo.co.uk'} ];
+import Home from './home/home.es6';
 
-var ractive = new Ractive({
+let router = new Router();
 
-  el: '#view',
-
-  template: html,
-
-  data: {
-    name: 'jack',
-    urls: urls
-  }
-
-});
-
-var updateURLs = () => {
-  axios.get('http://localhost:3000/lists').then((res) => {
-      console.log(res.data);
-      ractive.set('urls', res.data);
-  });
-}
-
-ractive.on('postURL', (e, url) => {
-  console.log(url);
-  let data = {url: url}
-  axios.post('http://localhost:3000/lists', data).then(() => {
-    updateURLs();
-  })
-});
-
-updateURLs();
-
+router.addRoute('home', new Home());

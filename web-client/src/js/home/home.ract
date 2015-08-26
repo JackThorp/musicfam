@@ -8,27 +8,27 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <h1>URLS</h1>
+      <h1>PlayLists</h1>
       <table class="table">
         <thead>
           <tr>
-            <th>URL</th>
+            <th>Name</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {{#each urls}}
+          {{#each playLists}}
           <tr>
-            <td>{{url}}</td>
+            <td>{{name}}</td>
             <td></td>
           </tr>
           {{/each}}
           <tr>
             <td>
-              <input type="text" class="form-control" placeholder="new url ..." value="{{url}}">
+              <input type="text" class="form-control" placeholder="new list" value="{{newListName}}">
             </td>
             <td>
-              <button type="submit" class="btn btn-success btn-block center-block" on-click="postURL:{{url}}">
+              <button type="submit" class="btn btn-success btn-block center-block" on-click="newList:{{newListName}}">
                 Add
               </button>
             </td>

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "new age coops",
+    "tracks":[
+      {
+        "url": "www.fairmarket.coop"
+      }, {
+        "url": "www.fairmondo.coop"
+      }, {
+        "url": "www.worth.coop"
+      }
+    ]
+  }, {
+    "name": "music sites",
+    "tracks": [
+      {
+        "url": "www.bandcamp.com"
+      }, {
+        "url": "www.soundcloud.co.uk"
+      }
+    ]
+  }
+]
