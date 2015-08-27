@@ -1,6 +1,10 @@
 module.exports.libs = [ 
   'lodash',
+  'axios',
+  'crossroads',
   'ractive',
+  'hasher',
+  'signals',
   'bootstrap'
 ];
 

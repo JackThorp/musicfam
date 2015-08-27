@@ -15,8 +15,7 @@ class Home {
       el: '#view',
       template: html,
       data: {
-        name: 'jack',
-        playLists: playLists
+        name: 'jack'
       }
     });
 

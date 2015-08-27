@@ -6,3 +6,5 @@ import Home from './home/home.es6';
 let router = new Router();
 
 router.addRoute('home', new Home());
+
+router.initialise();

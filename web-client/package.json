@@ -22,6 +22,7 @@
     "lodash": "^3.10.1",
     "ractivate": "^0.2.0",
     "ractive": "^0.7.3",
+    "signals": "^1.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
