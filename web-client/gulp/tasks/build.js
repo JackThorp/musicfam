@@ -31,6 +31,7 @@ module.exports = function(gulp) {
     });
 
     b.add(paths.js.src);
+    b.require('./config-' + environment + '.es6', {expose: 'configuration'});
     b.transform({extensions: ['.ract']}, ractivate);
     b.transform({extensions: ['.es6']}, babelify);
 

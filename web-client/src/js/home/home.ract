@@ -19,7 +19,7 @@
         <tbody>
           {{#each playLists}}
           <tr>
-            <td>{{name}}</td>
+            <td><a href="#/playlist/{{_id}}">{{name}}</a></td>
             <td></td>
           </tr>
           {{/each}}

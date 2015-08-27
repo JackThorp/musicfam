@@ -16,7 +16,12 @@ class Router {
   addRoute(path, view) {
     // addRoute method to register a handler to a path. 
     // Here, _.bind sets the function invocation context (this) of view.render to view
-    let route = crossroads.addRoute(path, _.bind(view.render, view));
+    
+    view.render_h = () => {
+      view.render(hasher.getHash());
+    }
+    
+    let route = crossroads.addRoute(path, _.bind(view.render_h, view));
     
     // Attach a handler for the switch event
     route.switched.add(() => this.switchedHandler(view));
