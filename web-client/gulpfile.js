@@ -6,13 +6,13 @@ var paths = conf.paths;
 var gulp  = require('./gulp')([
     'build',
     'vendor',
-    'html',
+    'jade',
     'less',
     'test'
 ]);
 
 
-gulp.task('build-all', ['vendor', 'build', 'html', 'less']);
+gulp.task('build-all', ['vendor', 'build', 'jade', 'less']);
 
 gulp.task('serve-with-node', ['build-all'], serve({
   root: ['./dist'],
@@ -21,7 +21,7 @@ gulp.task('serve-with-node', ['build-all'], serve({
 
 gulp.task('watch', function() {
   gulp.watch(paths.js.watch, ['build']);
-  gulp.watch(paths.html.watch, ['html']);
+  gulp.watch(paths.jade.watch, ['jade']);
   gulp.watch(paths.less.watch, ['less']);
 });
 
