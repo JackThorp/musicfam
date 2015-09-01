@@ -1,11 +1,10 @@
-<div class="container">
 
+<div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h1><a href="#/home">Playlist</a></h1>
+      <h1> <a href="#/home">Playlist</a></h1>
     </div>
   </div>
-
   <div class="row">
     <div class="col-xs-12">
       <h1>{{playlist.name}}</h1>
@@ -15,28 +14,22 @@
             <th>Tracks</th>
             <th></th>
           </tr>
+          <tr></tr>
         </thead>
-        <tbody>
-          {{#each playlist.tracks:index}}
+        <thead></thead>
+        <tbody>{{#each playlist.tracks:index}}
           <tr>
             <td><a href="{{url}}">{{url}}</a></td>
             <td>
-              <button type="submit" 
-                class="btn btn-danger btn-block center-block" 
-                on-click="deleteTrack:{{index}}">
-                Delete
-              </button>
-              </td>
-          </tr>
-          {{/each}}
+              <button type="submit" on-click="deleteTrack:{{index}}" class="btn btn-danger btn-block center-block">Delete</button>
+            </td>
+          </tr>{{/each}}
           <tr>
             <td>
-              <input type="text" class="form-control" placeholder="new track" value="{{newTrackUrl}}">
+              <input type="text" placeholder="new track" value="{{newTrackUrl}}" class="form-control"/>
             </td>
             <td>
-              <button type="submit" class="btn btn-success btn-block center-block" on-click="newTrack:{{newTrackUrl}}">
-                Add
-              </button>
+              <button type="submit" on-click="newTrack:{{newTrackUrl}}" class="btn btn-block btn-success center-block">Add</button>
             </td>
           </tr>
         </tbody>

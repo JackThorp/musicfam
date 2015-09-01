@@ -1,0 +1,26 @@
+.container
+  
+  .row
+    .col-xs-12
+      h1 Welcome To PlayList!
+
+  .row
+    .col-xs-12
+      h1 PlayLists
+      table.table
+        thead
+          tr
+            th Name
+            th
+        tbody
+          {{#each playLists}}
+          tr
+            td 
+              a(href="#/playlist/{{_id}}") {{name}}
+            td
+          {{/each}}
+          tr
+            td
+              input.form-control(type="text" placeholder="new list" value="{{newListName}}")
+            td
+              button.btn.btn-block.btn-success.center-block(type="submit" on-click="newList:{{newListName}}") Add

@@ -1,0 +1,30 @@
+.container
+
+  .row
+    .col-xs-12
+      h1 
+        a(href="#/home") Playlist
+
+  .row
+    .col-xs-12
+      h1 {{playlist.name}}
+      table.table
+        thead
+          tr
+            th Tracks
+            th
+          tr
+        thead
+        tbody
+          {{#each playlist.tracks:index}}
+          tr
+            td
+              a(href="{{url}}"){{url}}
+            td
+              button.btn.btn-danger.btn-block.center-block(type="submit" on-click="deleteTrack:{{index}}") Delete
+          {{/each}}
+          tr
+            td
+              input.form-control(type="text" placeholder="new track" value="{{newTrackUrl}}")
+            td
+              button.btn.btn-block.btn-success.center-block(type="submit" on-click="newTrack:{{newTrackUrl}}") Add

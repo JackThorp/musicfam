@@ -1,0 +1,22 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Welcome to playlist</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Username</label>
+          <input type="email" id="exampleInputEmail1" placeholder="Email" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" id="exampleInputPassword1" placeholder="Password" class="form-control"/>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
