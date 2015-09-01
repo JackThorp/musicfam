@@ -16,9 +16,19 @@ module.exports.paths = {
     watch: ['./src/**/*.es6', './src/**/*.ract']
   },
 
-  jade: {
-    src: './src/index.jade',
+  ract: {
+    watch: ['./src/**/*.ract']
+  },
+
+  html: {
+    src: './src/index.html',
     dest: './dist/'
+  },
+
+  jade: {
+    src: './src/js/**/*.jade',
+    dest: './src/js',
+    watch: ['./src/**/*.jade']
   },
 
   less: {
