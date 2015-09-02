@@ -1,22 +1,26 @@
 import Ractive from 'ractive';
 import html from './home.ract';
+import storage from '../services/storage.es6';
 import axios from 'axios';
 
 class Home {
 
-  constructor(config){
-    this.axios = axios;
+  constructor(auth, events, config){
+    this.axios  = axios;
+    this.auth   = auth;
+    this.events = events;
     this.config = config;
   }
 
   render(hash) {
 
-    console.log('HASH: ' + hash);
-
+    let loggedInUser = storage.memory.get('user'); 
     this.ractive = new Ractive({
       el: '#view',
       template: html,
-      data: {}
+      data: {
+        user: loggedInUser
+      }
     });
 
     

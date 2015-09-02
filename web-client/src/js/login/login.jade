@@ -7,11 +7,9 @@
     .col-xs-6.col-xs-offset-3
       form
         .form-group
-          label(for="exampleInputEmail1") Username
-          input.form-control(type="username" id="exampleInputEmail1" placeholder="Username")
+          input.form-control(value="{{username}}" type="username" id="exampleInputEmail1" placeholder="Username")
                       
         .form-group
-          label(for="exampleInputPassword1") Password
-          input.form-control(type="password" id="exampleInputPassword1" placeholder="Password")
+          input.form-control(value="{{password}}" type="password" id="exampleInputPassword1" placeholder="Password")
 
-        button.btn.btn-default(type="submit") Submit
+        button.btn.btn-default(type="submit" on-click="signIn" disabled="{{false}}") Submit

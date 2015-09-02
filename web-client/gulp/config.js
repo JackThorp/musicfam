@@ -5,7 +5,10 @@ module.exports.libs = [
   'ractive',
   'hasher',
   'signals',
-  'bootstrap'
+  'bootstrap',
+  'store',
+  'parsleyjs',
+  'logdown'
 ];
 
 module.exports.paths = {
@@ -35,6 +38,11 @@ module.exports.paths = {
     src: './src/css/styles.less',
     dest: './dist/css',
     watch: ['./src/**/*.less']
+  },
+
+  jquery: {
+    src: './node_modules/jquery/dist/jquery.min.js',
+    dest: './dist/js/'
   }
 }
 

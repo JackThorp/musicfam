@@ -18,7 +18,8 @@ class Router {
     hasher.init();
 
     // bypassed callbacks are run everytime a route cuold not be found to match the request.
-    crossroads.bypassed.add(() => this.bypassedHandler);
+    // Writing like this capture this in the closure?
+    crossroads.bypassed.add(() => this.bypassedHandler());
   }
 
   addRoute(path, view) {
@@ -53,6 +54,7 @@ class Router {
   parseHash(newHash, oldHash) {
     // Whenever the hash changes crossroads will perform routing
     // based on configured routes. Rendering and tearing down pages.
+    console.log('new hash: ' + newHash);
     crossroads.parse(newHash)
   }
 
