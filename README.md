@@ -6,5 +6,5 @@ Objective of the application is to learn/practise:
 * Ecma 6 (used only on frontend)
 * Coffeescript (node server)
 * browserify
-* Front end JS libraries (rather than framework such as Angular): ractive (data binding), parsley (form validation), crossroads (routing), axios (http) etc
+* Front end JS libraries (rather than framework such as Angular): ractive (data binding), parsley (form validation), crossroads (routing), axios (http), hasher (state transitions & location), signals (events) etc
 * New backend JS libraries such as Istanbul and Socket.io
