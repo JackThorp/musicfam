@@ -10,12 +10,13 @@
       <form>
         <div class="form-group">
           <label for="exampleInputEmail1">Username</label>
-          <input type="email" id="exampleInputEmail1" placeholder="Email" class="form-control"/>
+          <input type="username" id="exampleInputEmail1" placeholder="Username" class="form-control"/>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
           <input type="password" id="exampleInputPassword1" placeholder="Password" class="form-control"/>
         </div>
+        <button type="submit" class="btn btn-default">Submit</button>
       </form>
     </div>
   </div>

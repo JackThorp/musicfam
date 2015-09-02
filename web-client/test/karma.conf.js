@@ -23,11 +23,17 @@ module.exports = function(config) {
       debug: true,
       paths: ['../node_modules', '../src/js'],
       transform: [['ractivate', {extensions: ['.ract']}], 'babelify'],
-      extensions: ['.ract', '.es6']
+      extensions: ['.ract', '.es6'],
+      configure: function(bundle) {
+        bundle.on('prebundle', function() {
+          bundle.add('../config-dev.es6', {expose: 'configuration'});
+        });
+      }
     },
 
     // list of files / patterns to load in the browser
     files: [
+      '../node_modules/jasmine-ajax/lib/mock-ajax.js',  
       '../src/**/*.es6',
       'unit/**/*.es6'
     ],
@@ -41,7 +47,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['spec'],
 
 
     // web server port
@@ -68,7 +74,8 @@ module.exports = function(config) {
     plugins: [
       'karma-browserify',
       'karma-jasmine',
-      'karma-chrome-launcher'
+      'karma-chrome-launcher',
+      'karma-spec-reporter'
     ],
 
     // Continuous Integration mode

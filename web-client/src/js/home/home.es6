@@ -30,6 +30,10 @@ class Home {
 
   }
 
+  isProtected() {
+    return true;
+  }
+
   updatePlayLists() {
     axios.get(this.config.api + '/lists').then((res) => {
       this.ractive.set('playLists', res.data);
@@ -37,7 +41,7 @@ class Home {
   }
 
   unrender() {
-    this.ractive.teardown()
+    return this.ractive.teardown()
   }
 
 }

@@ -1,19 +1,14 @@
-import Ractive from 'ractive'
-import html from './login.ract'
+import Ractive from 'ractive';
+import html from './404.ract';
 
-class Login {
+class NotFound {
 
-  constructor(config) {
-
-  }
 
   render() {
-
     this.ractive = new Ractive({
       el: '#view',
       template: html
     });
-
   }
 
   isProtected() {
@@ -26,4 +21,4 @@ class Login {
 
 }
 
-export default Login
+export default NotFound
