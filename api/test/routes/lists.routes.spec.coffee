@@ -12,13 +12,14 @@ mongoose      = require 'mongoose'
 app = {}
 
 before (done) ->
-  mongoose.connect require('../../src/config').mongodb
+  testHelpers.connect()
   testHelpers.clearDatabase done
 
 after (done) ->
   testHelpers.clearDatabase ->
-    mongoose.disconnect()
-    done()
+    testHelpers.disconnect()
+  done()
+    
 
 describe 'List API routes', () ->
 

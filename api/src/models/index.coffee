@@ -1,5 +1,6 @@
 
 list  = require './list.coffee'
+user  = require './user.coffee'
 _     = require 'lodash'
 
 
@@ -28,3 +29,4 @@ models =
 
 module.exports =
   List: list
+  User: user

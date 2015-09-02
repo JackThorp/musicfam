@@ -12,4 +12,9 @@ router.get      '/lists/:id', api.http api.lists.read
 router.put      '/lists/:id', api.http api.lists.edit
 router.delete   '/lists/:id', api.http api.lists.destroy
 
+# - - USERS - -
+router.post     '/users',       api.http api.users.add
+router.post     '/users/login', api.http api.users.login
+router.get      '/users/login', api.http api.users.read
+
 module.exports = router

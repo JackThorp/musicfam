@@ -23,7 +23,7 @@ lists =
 
   edit: (object, options) ->
     List.findById(options.id).then (list) ->
-      
+    
       # If list could not be found return 404
       if not list then throw
         status: 404
