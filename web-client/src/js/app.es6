@@ -32,7 +32,7 @@ axios.interceptors.request.use(function(config) {
 
 router.addRoute('login', new Login(auth, events));
 router.addRoute('home', new Home(auth, events, config));
-router.addRoute('playlist/{id}', new Playlist(config));
+router.addRoute('playlist/{id}', new Playlist(auth, events, config));
 router.addRoute('404', new NotFound());
 
 // First thing on page load (before trying to route to the current hash) is to establish if the user

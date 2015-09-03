@@ -24,11 +24,13 @@ class Auth {
 
   restoreLogin() {
     return this.http.get(this.config.api + '/users/login').then(
-        (user)  =>  {
-          this.store.memory.set('user', user);
-          this.events.auth.restoredLogin.dispatch(null, user)
+        (response)  =>  {
+          this.store.memory.set('user', response.data.user);
+          this.events.auth.restoredLogin.dispatch(null, response.data.user)
         },
-        (err)   => this.events.auth.restoredLogin.dispatch(err));
+        (err)   => {
+          this.events.auth.restoredLogin.dispatch(err);
+        })
   }
 
   clearLogin() {

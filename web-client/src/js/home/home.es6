@@ -1,5 +1,6 @@
 import Ractive from 'ractive';
 import html from './home.ract';
+import navbar from '../navbar/navbar.ract';
 import storage from '../services/storage.es6';
 import axios from 'axios';
 
@@ -14,10 +15,11 @@ class Home {
 
   render(hash) {
 
-    let loggedInUser = storage.memory.get('user'); 
+    let loggedInUser = this.auth.loggedInUser(); 
     this.ractive = new Ractive({
       el: '#view',
       template: html,
+      partials: {navbar: navbar},
       data: {
         user: loggedInUser
       }
@@ -30,8 +32,15 @@ class Home {
       })
     });
 
+    this.ractive.on('logout', () => this.logout()); 
+
     this.updatePlayLists();
 
+  }
+
+  logout() {
+    this.auth.clearLogin();
+    this.events.routing.transitionTo.dispatch('login', this);
   }
 
   isProtected() {
