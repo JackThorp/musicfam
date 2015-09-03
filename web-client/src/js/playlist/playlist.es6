@@ -5,11 +5,11 @@ import axios from 'axios';
 
 class Playlist {
 
-  constructor(auth, events, config) {
+  constructor(auth, events, playlistService) {
     this.axios    = axios;
     this.auth     = auth;
     this.events   = events;
-    this.config   = config;
+    this.playlistService = playlistService;
     this.playlist = {};
   }
 
@@ -23,33 +23,33 @@ class Playlist {
       template: html,
       partials: {navbar: navbar},
       data: {
-        user: this.auth.loggedInUser(),
-        playlist: this.playlist
+        user: this.auth.loggedInUser()
       }
     });
 
+    // USE playlistService find - to get the cylinder for this view. 
+    this.playlistService.find(this.id).then((playlist) => {
+      this.playlist = playlist;
+      this.ractive.set('playlist', this.playlist);
+    });
+
+    // To Add and delete tracks simply modify the playlist and call cylinderListService.save(playlist);
     this.ractive.on('newTrack', (e, url) => {
       this.playlist.tracks.push({url:url});
-      this.axios.put(this.config.api + '/lists/' + this.id, this.playlist)
+      this.playlistService.save(this.playlist);
     });
 
     this.ractive.on('deleteTrack', (e, index) => {
       this.playlist.tracks.splice(index,1);
-      this.axios.put(this.config.api + '/lists/' + this.id, this.playlist)
+      this.playlistService.save(this.playlist);
     });
 
     this.ractive.on('logout', () => this.logout());
 
-    this.updatePlayList();
-
   }
 
-  updatePlayList() {
-    this.axios.get(this.config.api + '/lists/' + this.id)
-      .then((res) => {
-        this.playlist = res.data;
-        this.ractive.set('playlist', res.data);
-      });
+  isProtected(){
+    return true;
   }
 
   logout() {

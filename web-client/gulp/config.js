@@ -43,7 +43,13 @@ module.exports.paths = {
   jquery: {
     src: './node_modules/jquery/dist/jquery.min.js',
     dest: './dist/js/'
+  },
+
+  fonts: {
+    src: ['./node_modules/bootstrap/dist/fonts/*'],
+    dest: './dist/fonts/'
   }
+
 }
 
 module.exports.__testdir = '/test';

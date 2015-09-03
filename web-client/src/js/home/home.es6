@@ -1,16 +1,14 @@
 import Ractive from 'ractive';
 import html from './home.ract';
 import navbar from '../navbar/navbar.ract';
-import storage from '../services/storage.es6';
-import axios from 'axios';
 
 class Home {
 
-  constructor(auth, events, config){
-    this.axios  = axios;
+  constructor(auth, events, playlistService){
     this.auth   = auth;
     this.events = events;
-    this.config = config;
+    this.playlists = [{name:'bob'}];
+    this.playlistService = playlistService;
   }
 
   render(hash) {
@@ -25,16 +23,34 @@ class Home {
       }
     });
 
-    
+
+
     this.ractive.on('newList', (e, name) => {
-      axios.post(this.config.api + '/lists', {name: name}).then(() => {
-        this.updatePlayLists();
-      })
+      this.playlistService.add({name}).then((playlist) => {
+        // Ractive intercepts push method by default
+        this.playlists.push(playlist);
+      });
     });
+
+
+
+    this.ractive.on('removeList', (e, list, index) => {
+      this.playlistService.remove(list);
+      this.playlists.splice(index,1);
+    });
+
+
 
     this.ractive.on('logout', () => this.logout()); 
 
-    this.updatePlayLists();
+
+
+    this.playlistService.findAll().then((playlists) => {
+      // unfortunately ractive update only works when you modify an array like ar[3] = n
+      // not when you reassign to the array like ar = [];
+      this.playlists = playlists;
+      this.ractive.set('playlists', this.playlists);
+    });
 
   }
 
@@ -47,10 +63,8 @@ class Home {
     return true;
   }
 
-  updatePlayLists() {
-    axios.get(this.config.api + '/lists').then((res) => {
-      this.ractive.set('playLists', res.data);
-    });
+  updatePlaylists() {
+    this.ractive.set('playlists', this.playlists );
   }
 
   unrender() {

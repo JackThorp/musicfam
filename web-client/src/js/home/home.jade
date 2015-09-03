@@ -9,11 +9,12 @@
             th Name
             th
         tbody
-          {{#each playLists}}
+          {{#each playlists:num}}
           tr
             td 
               a(href="#/playlist/{{_id}}") {{name}}
             td
+              span.glyphicon.glyphicon-remove.pull-right(aria-hidden="true" on-click="removeList:{{this}},{{num}}")
           {{/each}}
           tr
             td

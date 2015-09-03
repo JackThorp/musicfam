@@ -1,7 +1,6 @@
-.container
-  nav.navbar.navbar-default(role="navigation")
-    .container-fluid
-      .navbar-header
-        a.navbar-brand(href="#/home") PlayList
-      button.btn.navbar-btn.btn-danger.pull-right(on-click="logout") Logout
-      p.navbar-text.pull-right {{user.username}}
+nav.navbar.navbar-default.navbar-static-top(role="navigation")
+  .container
+    .navbar-header
+      a.navbar-brand(href="#/home") PlayList
+    button.btn.navbar-btn.btn-danger.pull-right(on-click="logout") Logout
+    p.navbar-text.pull-right {{user.username}}

@@ -15,10 +15,12 @@ lists =
 
 
   add: (object, options) ->
-    new List(object).save().then null, (err) ->
-      if err.name == 'ValidationError' then throw
-        status: 403
-        message: err?.errors
+    new List(object).save().then((list) ->
+        list
+      ).then null, (err) ->
+        if err.name == 'ValidationError' then throw
+          status: 403
+          message: err?.errors
 
 
   edit: (object, options) ->

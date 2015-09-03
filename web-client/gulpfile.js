@@ -10,11 +10,12 @@ var gulp  = require('./gulp')([
     'jade-ract',
     'less',
     'test',
-    'jquery'
+    'jquery',
+    'fonts'
 ]);
 
 
-gulp.task('build-all', ['jade-ract', 'vendor', 'jquery', 'build', 'html', 'less']);
+gulp.task('build-all', ['jade-ract', 'vendor', 'jquery', 'build', 'html', 'less', 'fonts']);
 
 gulp.task('serve-with-node', ['build-all'], serve({
   root: ['./dist'],

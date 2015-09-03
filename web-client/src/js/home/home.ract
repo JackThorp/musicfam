@@ -10,10 +10,10 @@
             <th></th>
           </tr>
         </thead>
-        <tbody>{{#each playLists}}
+        <tbody>{{#each playlists:num}}
           <tr>
             <td> <a href="#/playlist/{{_id}}">{{name}}</a></td>
-            <td></td>
+            <td><span aria-hidden="true" on-click="removeList:{{this}},{{num}}" class="glyphicon glyphicon-remove pull-right"></span></td>
           </tr>{{/each}}
           <tr>
             <td>

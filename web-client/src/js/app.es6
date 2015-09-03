@@ -3,24 +3,33 @@ import Logdown  from 'logdown';
 import axios    from 'axios';
 import Parsley  from 'parsleyjs';
 
-import Router   from './services/router.es6';
-import events   from './services/events.es6';
-import Auth     from './services/auth.es6';
-import storage  from './services/storage.es6';
+// S suffix for SERVICES
+import Router     from './services/router.es6';
+import events     from './services/events.es6';
+import Auth       from './services/auth.es6';
+import storage    from './services/storage.es6';
+import PlaylistS  from './services/playlistService.es6';
 
 import parsleyDecorator  from './services/parsley-decorator.es6'; 
 Ractive.decorators.parsley = parsleyDecorator;
 
-import Home     from './home/home.es6';
-import Playlist from './playlist/playlist.es6';
-import Login    from './login/login.es6';
-import NotFound from './404/404.es6';
+
+// Models
+import PlaylistM from './models/playlist.es6';
+
+
+// C suffix for CONTROLLERS 
+import HomeC        from './home/home.es6';
+import PlaylistC    from './playlist/playlist.es6';
+import LoginC       from './login/login.es6';
+import NotFoundC    from './404/404.es6';
 
 import config   from 'configuration';
 
 let logger  = new Logdown({prefix: 'app'});
 let auth    = new Auth(axios, storage, events, config);
 let router  = new Router(auth, events);
+let plService = new PlaylistS(PlaylistM);
 
 // Interceptors allow us to change headers before request is sent.
 axios.interceptors.request.use(function(config) {
@@ -30,10 +39,10 @@ axios.interceptors.request.use(function(config) {
   return config;
 });
 
-router.addRoute('login', new Login(auth, events));
-router.addRoute('home', new Home(auth, events, config));
-router.addRoute('playlist/{id}', new Playlist(auth, events, config));
-router.addRoute('404', new NotFound());
+router.addRoute('login', new LoginC(auth, events));
+router.addRoute('home', new HomeC(auth, events, plService));
+router.addRoute('playlist/{id}', new PlaylistC(auth, events, plService));
+router.addRoute('404', new NotFoundC());
 
 // First thing on page load (before trying to route to the current hash) is to establish if the user
 // is logged in, and if not, whether they should be directed somewhere else first.
