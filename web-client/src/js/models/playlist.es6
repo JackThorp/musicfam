@@ -43,21 +43,21 @@ class Playlist {
       .then(Playlist.mapPlaylists);
   }
 
-
-  // TODO different sematics for saving new list
-  // which is a post. And saving an existing list which is a put
-  // Arguably one should be static and one should by dynamic??
   save() {
     if(!this.name) {
       return null;
     }
 
-    console.log('oo');
+    // Future fix would be to attach update links to resources in backend for more
+    // RESTful behaviour.
+    if(this._id) {
+      return axios.put(config.api + '/lists/' + this._id, this)
+        .then(Playlist.mapPlaylist, (err) => console.log(err));
+    }
+
     return axios.post(config.api + '/lists', this)
       .then(Playlist.mapPlaylist, (err) => console.log(err));
   }
-
-
 
   del() {
     return axios.delete(config.api + '/lists/' + this._id);
