@@ -25,8 +25,12 @@ describe 'List API routes', () ->
 
   beforeEach (done) ->
     app = require '../../src/index'
-    testHelpers.populateModel List, mockLists, done
-    
+    testHelpers.populateModel List, mockLists, () ->
+      testHelpers.populateModel User, mockUsers, () ->
+        request(app)
+          .post('/api/users')
+
+
   describe 'GET /api/lists', () ->
 
     it 'should return array of lists', (done) ->
@@ -65,10 +69,12 @@ describe 'List API routes', () ->
               done()
 
 
-
   describe 'POST /api/lists', () ->
 
-    it 'should add a new list to the backend', (done) ->
+    it 'should be blocked if no authentication provided', (done) ->
+      done()
+
+    it 'should add a new list to the backend WITH correct user ID', (done) ->
       request(app)
         .post('/api/lists')
         .set('Content-Type', 'application/json')
@@ -109,6 +115,9 @@ describe 'List API routes', () ->
 
   describe 'PUT /api/lists/:id', ->
 
+    it 'should be blocked if the request is not authenticated', (done) ->
+      done()
+    
     it 'should update a list with new data', (done) ->
       
       request(app)
@@ -139,6 +148,9 @@ describe 'List API routes', () ->
 
   describe 'DELETE /api/lists/:id', ->
 
+    it 'should be blocked if the request is not authenticated by the owner', (done) ->
+      done()
+
     it 'should remove list from the database', (done) ->
 
       request(app)
@@ -155,3 +167,5 @@ describe 'List API routes', () ->
                   oldList = _.find res.body, _id: listID
                   expect(oldList).not.to.be.ok
                   done()
+
+
