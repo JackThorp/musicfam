@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.5.4",
     "babelify": "^6.2.0",
+    "bluebird": "^2.9.34",
     "bootstrap": "^3.3.5",
     "browserify": "^11.0.1",
     "crossroads": "^0.12.2",

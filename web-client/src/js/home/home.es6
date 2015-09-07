@@ -7,7 +7,8 @@ class Home {
   constructor(auth, events, playlistService){
     this.auth   = auth;
     this.events = events;
-    this.playlists = [{name:'bob'}];
+    this.personalPlaylists = [{name:'bob'}];
+    this.publicPlaylists = [];
     this.playlistService = playlistService;
   }
 
@@ -28,29 +29,31 @@ class Home {
     this.ractive.on('newList', (e, name) => {
       this.playlistService.add({name}).then((playlist) => {
         // Ractive intercepts push method by default
-        this.playlists.push(playlist);
+        this.personalPlaylists.push(playlist);
       });
     });
 
 
-
     this.ractive.on('removeList', (e, list, index) => {
       this.playlistService.remove(list);
-      this.playlists.splice(index,1);
+      this.personalPlaylists.splice(index,1);
     });
-
 
 
     this.ractive.on('logout', () => this.logout()); 
 
 
-
-    this.playlistService.findAll().then((playlists) => {
-      // unfortunately ractive update only works when you modify an array like ar[3] = n
-      // not when you reassign to the array like ar = [];
-      this.playlists = playlists;
-      this.ractive.set('playlists', this.playlists);
+    this.playlistService.findPublic(loggedInUser._id).then((publicPlaylists) => {
+      this.publicPlaylists = publicPlaylists;
+      this.ractive.set('publicPlaylists', this.publicPlaylists);
     });
+
+
+    this.playlistService.findPersonal(loggedInUser._id).then((playlists) => {
+      // ractive.update only works with modification like ar[3] = n. not like ar = [];
+      this.personalPlaylists = playlists;
+      this.ractive.set('personalPlaylists', this.personalPlaylists);
+    })
 
   }
 
@@ -61,10 +64,6 @@ class Home {
 
   isProtected() {
     return true;
-  }
-
-  updatePlaylists() {
-    this.ractive.set('playlists', this.playlists );
   }
 
   unrender() {

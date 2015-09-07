@@ -8,7 +8,8 @@ module.exports.libs = [
   'bootstrap',
   'store',
   'parsleyjs',
-  'logdown'
+  'logdown',
+  'bluebird'
 ];
 
 module.exports.paths = {

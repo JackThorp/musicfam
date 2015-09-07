@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h1>PlayLists</h1>
+      <h3>Your playlists</h3>
       <table class="table">
         <thead>
           <tr>
@@ -10,7 +10,7 @@
             <th></th>
           </tr>
         </thead>
-        <tbody>{{#each playlists:num}}
+        <tbody>{{#each personalPlaylists:num}}
           <tr>
             <td> <a href="#/playlist/{{_id}}">{{name}}</a></td>
             <td><span aria-hidden="true" on-click="removeList:{{this}},{{num}}" class="glyphicon glyphicon-remove pull-right"></span></td>
@@ -23,6 +23,23 @@
               <button type="submit" on-click="newList:{{newListName}}" class="btn btn-block btn-success center-block">Add</button>
             </td>
           </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Playlists by others</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>{{#each publicPlaylists:num}}
+          <tr>
+            <td> <a href="#/playlist/{{_id}}">{{name}}</a></td>
+          </tr>{{/each}}
         </tbody>
       </table>
     </div>

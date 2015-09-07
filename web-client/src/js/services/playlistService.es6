@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 class PlaylistService {
 
@@ -13,6 +14,22 @@ class PlaylistService {
 
   findAll () {
     return this.Playlist.findAll();
+  }
+
+  // Find all playlists belonging to currently logged in user
+  findPersonal (userId) {
+    return this.findAll().then((playlists) => {
+      return _.filter(playlists, {ownerID: userId})  
+    })
+  }
+
+  // Find all public playlists (those which logged in user does not own)
+  findPublic (userId) {
+    return this.findAll().then((playlists) => {
+      return _.filter(playlists, (pl) => {
+        return pl.ownerID != userId;
+      })  
+    })
   }
 
   // Create and return a new playlist.

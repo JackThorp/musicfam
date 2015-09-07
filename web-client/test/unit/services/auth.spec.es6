@@ -23,7 +23,7 @@ describe('authentication service', function() {
 
   it('should authenticate a valid user successfully', function(done) {
     
-    jasmine.Ajax.stubRequest('http://stub.com/login').andReturn({
+    jasmine.Ajax.stubRequest('http://stub.com/users/login').andReturn({
       'status': 200,
       'contentType': 'application/json',
       'responseText': JSON.stringify({

@@ -2,14 +2,14 @@
 .container
   .row
     .col-xs-12
-      h1 PlayLists
+      h3 Your playlists
       table.table
         thead
           tr
             th Name
             th
         tbody
-          {{#each playlists:num}}
+          {{#each personalPlaylists:num}}
           tr
             td 
               a(href="#/playlist/{{_id}}") {{name}}
@@ -21,3 +21,16 @@
               input.form-control(type="text" placeholder="new list" value="{{newListName}}")
             td
               button.btn.btn-block.btn-success.center-block(type="submit" on-click="newList:{{newListName}}") Add
+  .row
+      .col-xs-12
+        h3 Playlists by others
+        table.table
+          thead
+            tr
+              th Name
+          tbody
+            {{#each publicPlaylists:num}}
+            tr
+              td 
+                a(href="#/playlist/{{_id}}") {{name}}
+            {{/each}}
