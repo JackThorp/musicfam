@@ -13,7 +13,7 @@ clearDatabase = (next) ->
     dbs.push val
 
   clear = ->
-    if not dbs[i] then return next()
+    if not dbs[i] then return
 
     dbs[i].remove (err) ->
       if err then console.error err
@@ -21,13 +21,12 @@ clearDatabase = (next) ->
       clear()
 
   clear()
-
-
-populateModel = (model, mocks, next) ->
-  if not populated[model.modelName]
-    populated[model.modelName] = true
-    model.create mocks, next()
   next()
+
+
+# Only works on assumption that database has been cleared? 
+populateModel = (model, mocks, next) ->
+  model.create mocks, next
 
 connect = ->
   if db then return db

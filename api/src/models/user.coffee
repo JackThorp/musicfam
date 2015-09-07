@@ -30,6 +30,7 @@ UserSchema.methods.authenticate = (password) ->
 
 UserSchema.methods.map = ->
   user:
+    _id: this._id
     username: this.username
   accessToken: jwt.sign username: this.username, 'secretKey'
 

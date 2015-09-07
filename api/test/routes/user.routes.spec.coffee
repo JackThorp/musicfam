@@ -26,7 +26,7 @@ describe 'User API routes', () ->
 
   beforeEach (done) ->
     app = require '../../src/index'
-    testHelpers.populateModel User, mockUsers, done
+    done()
     
   describe 'Registration POST /api/users', () ->
 

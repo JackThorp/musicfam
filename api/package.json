@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register --recursive -R spec -u bdd",
-    "start": "node_modules/nodemon/bin/nodemon.js bin/www.coffee"
+    "start": "node node_modules/nodemon/bin/nodemon.js bin/www.coffee"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^3.2.0",
     "coffee-coverage": "^0.6.3",
-    "mocha": "^2.2.5",
+    "mocha": "^2.3.0",
     "should": "^7.0.4",
     "sinon-chai": "^2.8.0",
     "supertest": "^1.0.1"
@@ -20,6 +20,7 @@
   "dependencies": {
     "bluebird": "^2.9.34",
     "body-parser": "^1.13.3",
+    "coffee-script": "^1.10.0",
     "express": "^4.13.3",
     "istanbul": "^0.3.18",
     "jsonwebtoken": "^5.0.5",

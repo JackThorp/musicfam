@@ -12,5 +12,8 @@ ListSchema = new Schema
   name:
     type: String
     required: true
+  ownerID:
+  	type: Schema.Types.ObjectId
+  	required: true
 
 module.exports = mongoose.model 'List', ListSchema
