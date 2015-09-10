@@ -1,7 +1,7 @@
 
-list  = require './list.coffee'
-user  = require './user.coffee'
-_     = require 'lodash'
+Playlist  = require './Playlist.coffee'
+User      = require './User.coffee'
+_         = require 'lodash'
 
 
 # Not yet using this pattern
@@ -28,5 +28,5 @@ models =
 
 
 module.exports =
-  List: list
-  User: user
+  Playlist: Playlist
+  User: User

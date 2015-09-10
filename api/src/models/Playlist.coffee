@@ -6,14 +6,21 @@ UrlSchema = new Schema
   url:
     type: String
     required: true
+    
 
-ListSchema = new Schema
-  tracks: [UrlSchema]
+PlaylistSchema = new Schema
+  
   name:
     type: String
     required: true
+  
   ownerID:
   	type: Schema.Types.ObjectId
   	required: true
 
-module.exports = mongoose.model 'List', ListSchema
+  # Save as reference to user for mongoose population 
+  editors: [{type: Schema.Types.ObjectId, ref: 'User'}]
+
+  tracks: [UrlSchema]
+
+module.exports = mongoose.model 'Playlist', PlaylistSchema

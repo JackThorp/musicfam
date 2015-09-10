@@ -54,7 +54,6 @@ class Router {
   parseHash(newHash, oldHash) {
     // Whenever the hash changes crossroads will perform routing
     // based on configured routes. Rendering and tearing down pages.
-    console.log('new hash: ' + newHash);
     crossroads.parse(newHash)
   }
 

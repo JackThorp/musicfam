@@ -5,11 +5,12 @@ import axios from 'axios';
 
 class Playlist {
 
-  constructor(auth, events, playlistService) {
+  constructor(auth, events, playlistService, userService) {
     this.axios    = axios;
     this.auth     = auth;
     this.events   = events;
     this.playlistService = playlistService;
+    this.userService  = userService;
     this.playlist = {};
   }
 
@@ -17,18 +18,60 @@ class Playlist {
 
     let paths = hash.split('/');
     this.id = paths[paths.length - 1];
-    
+    this.loggedInUser = this.auth.loggedInUser();
+
     this.ractive = new Ractive({
       el: '#view',
       template: html,
       partials: {navbar: navbar},
       data: {
-        user: this.auth.loggedInUser()
+        searchTerm: '',
+        user: this.auth.loggedInUser(),
+        users: []
       }
     });
+    
+    // Filter out users to add as collaborators based on the search term
+    this.ractive.observe( 'searchTerm', ( newValue, oldValue ) => {
+      
+      if(newValue.length == 0) {
+        return this.ractive.set('addEditorList', [])
+      } 
+      
+      let filtered = this.users.filter((user) => { 
+
+        // Can't add yourself as an editor.
+        if(user._id == this.loggedInUser._id) return false;
+
+        // Can't add someone who is already an editor.
+        let alreadyEditor = this.playlist.editors.some((editor) => {
+          return user._id == editor._id
+        })
+
+        if(alreadyEditor) return false;
+
+        // User name must match search query
+        return newValue == user.username.substring(0, newValue.length)
+
+      })
+      
+      this.ractive.set('addEditorList', filtered)
+      
+    });
+
+    // Get user list and save locally.
+    this.userService.findAll().then((users) => {
+      this.users = users;
+      this.ractive.set('users', this.users);
+    })
 
     // USE playlistService find - to get the cylinder for this view. 
     this.playlistService.find(this.id).then((playlist) => {
+      
+      let editPermissions = this.loggedInUser._id == playlist.ownerID;
+      editPermissions = editPermissions || playlist.editors.some((editor) => {return editor._id == this.loggedInUser._id})
+
+      this.ractive.set('editPermissions', editPermissions);
       this.playlist = playlist;
       this.ractive.set('playlist', this.playlist);
     });
@@ -43,6 +86,12 @@ class Playlist {
       this.playlist.tracks.splice(index,1);
       this.playlistService.save(this.playlist);
     });
+
+
+    this.ractive.on('addEditor', (e, user) => {
+      this.playlist.editors.push(user._id)
+      this.playlistService.save(this.playlist)
+    })
 
     this.ractive.on('logout', () => this.logout());
 

@@ -1,6 +1,7 @@
 # Users API
 # RESTful (attempt) API for User resource
 Promise   = require 'bluebird'
+_         = require 'lodash'
 
 User  = require('../models').User
 
@@ -10,14 +11,10 @@ validate = (object) ->
 
 users =
 
-  add: (object, options) ->
-    
+  browse: (options) ->
     new Promise (resolve, reject) ->
-      validate object
-      user = new User {username: object.username}
-      user.setPassword object.password
-      user.save()
-      resolve user.map()
+      User.find({}).then (users) ->
+        resolve _.map(users, (user) -> user.read())
 
   read: (options) ->
     new Promise (resolve, reject) ->
@@ -26,6 +23,15 @@ users =
         return reject status: 401, message: 'You do not have access rights to this URL'
       
       resolve auth.user.map()
+
+  add: (object, options) ->
+    
+    new Promise (resolve, reject) ->
+      validate object
+      user = new User {username: object.username}
+      user.setPassword object.password
+      user.save()
+      resolve user.map()
 
 
   login: (object, options) ->

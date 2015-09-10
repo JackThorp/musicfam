@@ -3,6 +3,10 @@
   <div class="row">
     <div class="col-xs-12">
       <h1>{{playlist.name}}</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9 col-xs-12">
       <table class="table">
         <thead>
           <tr>
@@ -14,11 +18,10 @@
         <thead></thead>
         <tbody>{{#each playlist.tracks:index}}
           <tr>
-            <td><a href="{{url}}">{{url}}</a></td>
-            <td>
-              <button type="submit" on-click="deleteTrack:{{index}}" class="btn btn-danger btn-block center-block">Delete</button>
-            </td>
+            <td><a href="{{url}}">{{url}}</a></td>{{#if editPermissions}}
+            <td><span type="submit" on-click="deleteTrack:{{index}}" class="glyphicon glyphicon-trash pull-right"></span></td>{{/if}}
           </tr>{{/each}}
+          {{#if editPermissions}}
           <tr>
             <td>
               <input type="text" placeholder="new track" value="{{newTrackUrl}}" class="form-control"/>
@@ -26,9 +29,18 @@
             <td>
               <button type="submit" on-click="newTrack:{{newTrackUrl}}" class="btn btn-block btn-success center-block">Add</button>
             </td>
-          </tr>
+          </tr>{{/if}}
         </tbody>
       </table>
+    </div>
+    <div class="col-md-3 col-xs-12">
+      <h4>Editors</h4>
+      <div class="list-group">{{#each playlist.editors}}<a class="list-group-item">{{username}}</a>{{/each}}
+        {{#if editPermissions}}<a class="list-group-item"> 
+          <input type="text" placeholder="Add collaborators" value="{{searchTerm}}" class="form-control"/>
+          <!-- span.glyphicon.glyphicon-plus.pull-right--></a>{{/if}}
+        {{#each addEditorList}}<a on-click="addEditor:{{this}}" class="list-group-item">{{username}}</a>{{/each}}
+      </div>
     </div>
   </div>
 </div>

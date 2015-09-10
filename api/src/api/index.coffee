@@ -1,6 +1,7 @@
-Promise = require 'bluebird'
-_     = require 'lodash'
-lists = require './lists'
+Promise   = require 'bluebird'
+_         = require 'lodash'
+playlists = require './playlists'
+
 users = require './users'
 User  = require('../models').User
 jwt   = require 'jsonwebtoken'
@@ -51,6 +52,6 @@ http = (apiMethod) ->
 
 module.exports =  {
   http: http
-  lists: lists
+  playlists: playlists
   users: users
 }

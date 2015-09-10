@@ -6,13 +6,14 @@ middleware = require '../middleware'
 router = express.Router()
 
 # - - LISTS - -
-router.get      '/lists',     api.http api.lists.browse
-router.post     '/lists',     api.http api.lists.add
-router.get      '/lists/:id', api.http api.lists.read
-router.put      '/lists/:id', api.http api.lists.edit
-router.delete   '/lists/:id', api.http api.lists.destroy
+router.get      '/playlists',     api.http api.playlists.browse
+router.post     '/playlists',     api.http api.playlists.add
+router.get      '/playlists/:id', api.http api.playlists.read
+router.put      '/playlists/:id', api.http api.playlists.edit
+router.delete   '/playlists/:id', api.http api.playlists.destroy
 
 # - - USERS - -
+router.get			'/users',				api.http api.users.browse
 router.post     '/users',       api.http api.users.add
 router.post     '/users/login', api.http api.users.login
 router.get      '/users/login', api.http api.users.read

@@ -100,8 +100,24 @@ describe 'User API routes', () ->
               expect(res.body?.accessToken).to.be.ok
               done()
 
+  describe 'GET /api/users', ->
 
+    it 'should return a list of all the users', (done) ->
 
+      request(app)
+        .post('/api/users')
+        .send(username: 'test user', password: 'admin')
+        .expect(200)
+        .end (err, res) ->
+          if err then return done err
+          request(app)
+            .get('/api/users')
+            .expect(200)
+            .end (err, res) ->
+              if err then return done err
+              containsUser = _.find res.body, username: 'test user';
+              expect(containsUser).to.be.ok
+              done()
 
 
 

@@ -34,6 +34,10 @@ UserSchema.methods.map = ->
     username: this.username
   accessToken: jwt.sign username: this.username, 'secretKey'
 
+UserSchema.methods.read = ->
+  _id: this._id
+  username: this.username
+
 module.exports = mongoose.model 'User', UserSchema
 
 

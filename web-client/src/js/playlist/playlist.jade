@@ -3,6 +3,8 @@
   .row
     .col-xs-12
       h1 {{playlist.name}}
+  .row
+    .col-md-9.col-xs-12
       table.table
         thead
           tr
@@ -15,11 +17,32 @@
           tr
             td
               a(href="{{url}}"){{url}}
+
+            {{#if editPermissions}}
             td
-              button.btn.btn-danger.btn-block.center-block(type="submit" on-click="deleteTrack:{{index}}") Delete
+              span.glyphicon.glyphicon-trash.pull-right(type="submit" on-click="deleteTrack:{{index}}")
+            {{/if}}
           {{/each}}
+
+          {{#if editPermissions}}
           tr
             td
               input.form-control(type="text" placeholder="new track" value="{{newTrackUrl}}")
             td
               button.btn.btn-block.btn-success.center-block(type="submit" on-click="newTrack:{{newTrackUrl}}") Add
+          {{/if}}
+    .col-md-3.col-xs-12
+      h4 Editors
+      
+      .list-group
+        {{#each playlist.editors}}
+        a.list-group-item {{username}}
+        {{/each}}
+        {{#if editPermissions}}
+        a.list-group-item 
+          input.form-control(type="text" placeholder="Add collaborators" value="{{searchTerm}}")
+          // span.glyphicon.glyphicon-plus.pull-right
+        {{/if}}
+        {{#each addEditorList}}
+        a.list-group-item(on-click="addEditor:{{this}}") {{username}}
+        {{/each}}

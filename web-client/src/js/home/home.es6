@@ -7,7 +7,7 @@ class Home {
   constructor(auth, events, playlistService){
     this.auth   = auth;
     this.events = events;
-    this.personalPlaylists = [{name:'bob'}];
+    this.personalPlaylists = [];
     this.publicPlaylists = [];
     this.playlistService = playlistService;
   }

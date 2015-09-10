@@ -9,6 +9,7 @@ import events     from './services/events.es6';
 import Auth       from './services/auth.es6';
 import storage    from './services/storage.es6';
 import PlaylistS  from './services/playlistService.es6';
+import UserS      from './services/userService.es6';
 
 import parsleyDecorator  from './services/parsley-decorator.es6'; 
 Ractive.decorators.parsley = parsleyDecorator;
@@ -16,7 +17,7 @@ Ractive.decorators.parsley = parsleyDecorator;
 
 // Models
 import PlaylistM from './models/playlist.es6';
-
+import UserM     from './models/user.es6';
 
 // C suffix for CONTROLLERS 
 import HomeC        from './home/home.es6';
@@ -29,7 +30,9 @@ import config   from 'configuration';
 let logger  = new Logdown({prefix: 'app'});
 let auth    = new Auth(axios, storage, events, config);
 let router  = new Router(auth, events);
+
 let plService = new PlaylistS(PlaylistM);
+let uService  = new UserS(UserM);
 
 // Interceptors allow us to change headers before request is sent.
 axios.interceptors.request.use(function(config) {
@@ -41,7 +44,7 @@ axios.interceptors.request.use(function(config) {
 
 router.addRoute('login', new LoginC(auth, events));
 router.addRoute('home', new HomeC(auth, events, plService));
-router.addRoute('playlist/{id}', new PlaylistC(auth, events, plService));
+router.addRoute('playlist/{id}', new PlaylistC(auth, events, plService, uService));
 router.addRoute('404', new NotFoundC());
 
 // First thing on page load (before trying to route to the current hash) is to establish if the user
