@@ -73,12 +73,12 @@ describe 'Playlist API routes', ->
       request(app)
         .get('/api/playlists')
         .end (err, res) ->
-          listA = res.body[0]
+          pl1 = res.body[0]
           request(app)
-            .get('/api/playlists/' + listA._id)
+            .get('/api/playlists/' + pl1._id)
             .end (err, res) ->
-              listB = res.body
-              expect(listA).to.deep.equal listB
+              pl2 = res.body
+              expect(pl1).to.deep.equal pl2
               done()
 
   describe 'POST /api/playlists', ->

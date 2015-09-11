@@ -1,6 +1,8 @@
 # Playlists API
 # RESTful API for Playlist resource
 Promise   = require 'bluebird'
+Promise.promisifyAll require 'mongoose'
+
 _         = require 'lodash'
 Playlist  = require('../models').Playlist
 
@@ -11,19 +13,25 @@ Playlists =
     _.reduce (_.zipWith ed1, ed2, Object.prototype.equals), (a, b) -> a && b
 
   browse: (options) ->
-    Playlist.find({}).populate('editors', 'username');
+    Playlist
+      .find({})
+      .populate('editors', 'username')
+      .exec()
+      .then (playlists) ->
+        _.map playlists, (playlist) -> playlist.toObject(virtuals: true)
+
 
 
   read: (options) ->
     Playlist
       .findById(options.id)
       .populate('editors', 'username')
-      .then (Playlist) ->
+      .then (playlist) ->
         
-        if not Playlist then throw
+        if not playlist then throw
           status: 404, message: 'No Playlist found with id matching ' + options.id
         
-        Playlist
+        playlist.toObject(virtuals:true)
 
 
   add: (object, options) ->
