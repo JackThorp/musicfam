@@ -21,7 +21,6 @@ Playlists =
         _.map playlists, (playlist) -> playlist.toObject(virtuals: true)
 
 
-
   read: (options) ->
     Playlist
       .findById(options.id)
@@ -36,36 +35,29 @@ Playlists =
 
   add: (object, options) ->
 
-    new Promise (resolve, reject) ->
+    # if this is not a logged in user then throw error
+    # Can't see how ghost do user on first glance. Seems bad to add this to each handler.
+    if not options.user then throw
+      status: 401
+      message: 'You must be logged in to create a new playPlaylist'
 
-      # if this is not a logged in user then throw error
-      # Can't see how ghost do authentication on first glance. Seems bad to add this to each handler.
-      if not options.authentication then throw
-        status: 401
-        message: 'You must be logged in to create a new playPlaylist'
+    # Set the Playlist owner and add them as an editor of the Playlist. 
+    object.ownerID = options.user._id
+    if not object.editors then object.editors = [];
 
-      # Set the Playlist owner and add them as an editor of the Playlist. 
-      object.ownerID = options.authentication.user._id
-      if not object.editors then object.editors = [];
-
-      new Playlist(object).save().then((Playlist) ->
-          resolve Playlist
-        ).then null, (err) ->
-          if err.name == 'ValidationError' then reject
-            status: 403, message: err?.errors
-
+    new Playlist(object).save()
 
   edit: (object, options) ->
     Playlist.findById(options.id).then (Playlist) ->
 
-      if not options.authentication then throw
+      if not options.user then throw
         status: 401, message: 'You must be logged in to edit a playPlaylist'
 
       # If Playlist could not be found return 404
       if not Playlist then throw
         status: 404, message: 'No Playlist found with id: ' + options.id
 
-      userId = options.authentication.user._id
+      userId = options.user._id
       owner = userId.equals(Playlist.ownerID)
       editor = Playlist.editors.some (eid) -> userId.equals eid
 
@@ -82,7 +74,7 @@ Playlists =
 
     Playlist.findById(options.id).then (Playlist) ->
       
-      if not options.authentication then throw
+      if not options.user then throw
         status: 401
         message: 'You must be logged in to delete a playPlaylist'
 
@@ -91,7 +83,7 @@ Playlists =
         status: 404
         message: 'No Playlist found with id: ' + options.id
 
-      if not options.authentication.user._id.equals(Playlist.ownerID) then throw
+      if not options.user._id.equals(Playlist.ownerID) then throw
         status: 401
         message: 'You do not have permissions to delete this playPlaylist'
 
