@@ -34,7 +34,9 @@
       </table>
     </div>
     <div class="col-md-3 col-xs-12">
-      <h4>Editors</h4>
+      <h4>Owner</h4>
+      <div class="list-group"><a class="list-group-item">{{owner}}</a></div>
+      <h4>Editors      </h4>
       <div class="list-group">{{#each playlist.editors}}<a class="list-group-item">{{username}}</a>{{/each}}
         {{#if editPermissions}}<a class="list-group-item"> 
           <input type="text" placeholder="Add collaborators" value="{{searchTerm}}" class="form-control"/>

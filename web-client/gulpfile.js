@@ -22,7 +22,7 @@ gulp.task('serve-with-node', ['build-all'], serve({
   port: process.env.PORT || 8080
 }));
 
-gulp.task('watch', function() {
+gulp.task('watch', ['build-all'], function() {
   gulp.watch(paths.js.watch, ['build']);
   gulp.watch(paths.ract.watch, ['build']); // Couldn't find a nicer way to make build run after jade-ract.
   gulp.watch(paths.jade.watch, ['jade-ract']);
@@ -31,3 +31,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['watch', 'serve-with-node']);
+

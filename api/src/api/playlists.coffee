@@ -1,8 +1,5 @@
 # Playlists API
 # RESTful API for Playlist resource
-Promise   = require 'bluebird'
-Promise.promisifyAll require 'mongoose'
-
 _         = require 'lodash'
 Playlist  = require('../models').Playlist
 
@@ -25,6 +22,7 @@ Playlists =
     Playlist
       .findById(options.id)
       .populate('editors', 'username')
+      .exec()
       .then (playlist) ->
         
         if not playlist then throw
@@ -35,23 +33,15 @@ Playlists =
 
   add: (object, options) ->
 
-    # if this is not a logged in user then throw error
-    # Can't see how ghost do user on first glance. Seems bad to add this to each handler.
-    if not options.user then throw
-      status: 401
-      message: 'You must be logged in to create a new playPlaylist'
-
     # Set the Playlist owner and add them as an editor of the Playlist. 
     object.ownerID = options.user._id
     if not object.editors then object.editors = [];
 
     new Playlist(object).save()
 
+
   edit: (object, options) ->
     Playlist.findById(options.id).then (Playlist) ->
-
-      if not options.user then throw
-        status: 401, message: 'You must be logged in to edit a playPlaylist'
 
       # If Playlist could not be found return 404
       if not Playlist then throw
@@ -73,10 +63,6 @@ Playlists =
   destroy: (options) ->
 
     Playlist.findById(options.id).then (Playlist) ->
-      
-      if not options.user then throw
-        status: 401
-        message: 'You must be logged in to delete a playPlaylist'
 
       # If Playlist could not be found return 404
       if not Playlist then throw

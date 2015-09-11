@@ -25,8 +25,7 @@ PlaylistSchema = new Schema
 
 # Virtual method for making HAL response object.
 PlaylistSchema.virtual('_links').get ->
-  self: "playlists/" + this._id 
-
+  self: href: "api/playlists/" + this._id
 
 
 module.exports = mongoose.model 'Playlist', PlaylistSchema

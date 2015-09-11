@@ -32,8 +32,10 @@
               button.btn.btn-block.btn-success.center-block(type="submit" on-click="newTrack:{{newTrackUrl}}") Add
           {{/if}}
     .col-md-3.col-xs-12
-      h4 Editors
-      
+      h4 Owner
+      .list-group
+        a.list-group-item {{owner}}
+      h4 Editors      
       .list-group
         {{#each playlist.editors}}
         a.list-group-item {{username}}

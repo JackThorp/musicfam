@@ -31,7 +31,7 @@ class Playlist {
 
 
   static find(id) {
-      return axios.get(config.api + '/lists/' + id)
+      return axios.get(config.api + '/playlists/' + id)
         .then(Playlist.mapPlaylist);
   }
 
@@ -39,7 +39,7 @@ class Playlist {
 
   // Retreive all playlists from the API and map to damain model.
   static findAll() {
-    return axios.get(config.api + '/lists')
+    return axios.get(config.api + '/playlists')
       .then(Playlist.mapPlaylists);
   }
 
@@ -51,16 +51,16 @@ class Playlist {
     // Future fix would be to attach update links to resources in backend for more
     // RESTful behaviour.
     if(this._id) {
-      return axios.put(config.api + '/lists/' + this._id, this)
+      return axios.put(this._links.self.href, this)
         .then(Playlist.mapPlaylist, (err) => console.log(err));
     }
 
-    return axios.post(config.api + '/lists', this)
+    return axios.post(config.api + '/playlists', this)
       .then(Playlist.mapPlaylist, (err) => console.log(err));
   }
 
   del() {
-    return axios.delete(config.api + '/lists/' + this._id);
+    return axios.delete(this._links.self.href);
   }
 }
 
