@@ -1,7 +1,8 @@
-import Ractive from 'ractive';
-import html from './playlist.ract';
-import navbar from '../navbar/navbar.ract';
-import axios from 'axios';
+import Ractive  from 'ractive';
+import html     from './playlist.ract';
+import navbar   from '../navbar/navbar.ract';
+import axios    from 'axios';
+import _        from 'lodash'
 
 class Playlist {
 
@@ -40,23 +41,20 @@ class Playlist {
       
       let filtered = this.users.filter((user) => { 
 
-        // Can't add yourself as an editor.
-        if(user._id == this.loggedInUser._id) return false;
-
         // Can't add someone who is already an editor.
         let alreadyEditor = this.playlist.editors.some((editor) => {
           return user._id == editor._id
         })
 
-        if(alreadyEditor) return false;
+        // Can't add yourself or someone who is already an editor
+        if(alreadyEditor || user._id == this.loggedInUser._id) return false;
 
         // User name must match search query
-        return newValue == user.username.substring(0, newValue.length)
+        return _.contains(user.username, newValue)
 
       })
-      
+  
       this.ractive.set('addEditorList', filtered)
-      
     });
 
     // Get user list and save locally.
@@ -65,11 +63,12 @@ class Playlist {
       this.ractive.set('users', this.users);
     })
 
-    // USE playlistService find - to get the cylinder for this view. 
+    // USE playlistService find - to get the playlists for this view. 
     this.playlistService.find(this.id).then((playlist) => {
-      
-      let editPermissions = this.loggedInUser._id == playlist.owner._id;
-      editPermissions = editPermissions || playlist.editors.some((editor) => {return editor._id == this.loggedInUser._id})
+
+      console.log(playlist)
+      let editPermissions = this.loggedInUser._id == playlist.owner._id || 
+        playlist.editors.some((editor) => {return editor._id == this.loggedInUser._id})
 
       this.ractive.set('editPermissions', editPermissions);
       this.playlist = playlist;

@@ -2,6 +2,8 @@
 # RESTful API for Playlist resource
 _         = require 'lodash'
 Playlist  = require('../models').Playlist
+ytClient  = require '../utils/youtubeClient'
+Promise   = require 'bluebird'
 
 Playlists =
 
@@ -39,7 +41,17 @@ Playlists =
     object.owner = options.user._id
     if not object.editors then object.editors = [];
 
-    new Playlist(object).save()
+    # Fetch track titles (could be in a pre save hook?)
+    if not object.tracks then object.tracks = [];
+    trackInfo = []
+    trackInfo.push ytClient.getTrackTitle(track.url) for track in object.tracks
+
+    Promise.settle(trackInfo).then (trackInfo) ->
+      for track, i in trackInfo
+        if track.isFulfilled() then object.tracks[i].title = track.value()
+      
+      new Playlist(object).save()
+    
 
 
   edit: (object, options) ->
@@ -57,9 +69,15 @@ Playlists =
       if not editor and not owner then throw
         status: 401, message: 'You do not have permissions to modify this playPlaylist' 
 
-      # If Playlist is found, update the model and save
-      _.extend Playlist, object
-      Playlist.save()
+      trackInfo = []
+      trackInfo.push ytClient.getTrackTitle(track.url) for track in object.tracks
+
+      Promise.settle(trackInfo).then (trackInfo) ->
+        for track, i in trackInfo
+          if track.isFulfilled() then object.tracks[i].title = track.value()
+        # If Playlist is found, update the model and save
+        _.extend Playlist, object
+        Playlist.save()
 
 
   destroy: (options) ->

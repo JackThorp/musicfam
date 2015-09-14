@@ -25,7 +25,6 @@ class Home {
     });
 
 
-
     this.ractive.on('newList', (e, name) => {
       this.playlistService.add({name}).then((playlist) => {
         // Ractive intercepts push method by default

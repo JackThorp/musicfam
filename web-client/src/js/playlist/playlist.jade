@@ -4,6 +4,10 @@
     .col-xs-12
       h1 {{playlist.name}}
   .row
+    .col-xs-12
+       .videowrapper 
+        #player
+  .row
     .col-md-9.col-xs-12
       table.table
         thead
@@ -16,8 +20,12 @@
           | {{#each playlist.tracks:index}}
           tr
             td
-              a(href="{{url}}") {{url}}
-
+              a(href="{{url}}") 
+                | {{#if title}}
+                | {{title}}
+                | {{else}}
+                | {{url}}
+                | {{/if}}
             | {{#if editPermissions}}
             td
               span.glyphicon.glyphicon-trash.pull-right(type="submit" on-click="deleteTrack:{{index}}")
@@ -48,3 +56,44 @@
         | {{#each addEditorList}}
         a.list-group-item(on-click="addEditor:{{this}}") {{username}}
         | {{/each}}
+
+script.
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  var player;
+  var videoIds = ["jK680uD7qQI", "mdbTYxFRi7U"];
+  var currentVid = 0
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '293',
+      width: '480',
+      videoId: 'M7lc1UVf-VE',
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+    player.cueVideoById(videoIds[currentVid])
+    player.playVideo();    
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.ENDED) {
+      console.log('ENDED');
+      currentVid++;
+      player.cueVideoById(videoIds[currentVid])
+      player.playVideo();
+    }
+  }
+
+
+ 

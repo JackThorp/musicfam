@@ -83,7 +83,7 @@ describe 'Playlist API routes', ->
 
   describe 'POST /api/playlists', ->
    
-    it 'should add a new playlist to the backend WITH correct user ID', (done) ->
+    it 'should add a new playlist to the backend WITH correct user ID & owner', (done) ->
       request(app)
         .post('/api/playlists')
         .set('Content-Type', 'application/json')
@@ -101,6 +101,23 @@ describe 'Playlist API routes', ->
               expect(playlist.editors[0]._id == user2._id).to.be.ok
               expect(playlist.owner).to.be.ok
               expect(playlist.owner._id).to.equal user._id
+              done()
+
+    it 'should add track names', (done) ->
+      request(app)
+        .post('/api/playlists')
+        .set('Content-Type', 'application/json')
+        .set('X-Auth-Token', authToken)
+        .send( name: "empty list", tracks: [{url: 'https://www.youtube.com/watch?v=mdbTYxFRi7U&index=2&list=PLpaw6RtD8L6LExZLP0PG89UJZDNMkwIvq'}])
+        .expect(200)
+        .end (err, res) ->
+          request(app)
+            .get('/api/playlists/' + res.body._id)
+            .expect(200)
+            .end (err, res) ->
+              playlist = res.body
+              expect(playlist.tracks).to.be.ok
+              expect(playlist.tracks[0].title).to.be.ok
               done()
     
     it 'should be blocked if no authentication provided', (done) ->

@@ -3,6 +3,9 @@ mongoose  = require 'mongoose'
 Schema    = mongoose.Schema
 
 UrlSchema = new Schema
+  title:
+    type: String
+
   url:
     type: String
     required: true

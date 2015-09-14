@@ -6,6 +6,13 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-xs-12">
+      <div class="videowrapper"> 
+        <div id="player"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-9 col-xs-12">
       <table class="table">
         <thead>
@@ -18,7 +25,13 @@
         <thead></thead>
         <tbody>{{#each playlist.tracks:index}}
           <tr>
-            <td><a href="{{url}}">{{url}}</a></td>{{#if editPermissions}}
+            <td><a href="{{url}}">
+                 
+                {{#if title}}
+                {{title}}
+                {{else}}
+                {{url}}
+                {{/if}}</a></td>{{#if editPermissions}}
             <td><span type="submit" on-click="deleteTrack:{{index}}" class="glyphicon glyphicon-trash pull-right"></span></td>{{/if}}
           </tr>{{/each}}
           {{#if editPermissions}}
@@ -46,3 +59,41 @@
     </div>
   </div>
 </div>
+<script>
+  var tag = document.createElement('script');
+  
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  
+  var player;
+  var videoIds = ["jK680uD7qQI", "mdbTYxFRi7U"];
+  var currentVid = 0
+  
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '293',
+      width: '480',
+      videoId: 'M7lc1UVf-VE',
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+  
+  function onPlayerReady(event) {
+    event.target.playVideo();
+    player.cueVideoById(videoIds[currentVid])
+    player.playVideo();    
+  }
+  
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.ENDED) {
+      console.log('ENDED');
+      currentVid++;
+      player.cueVideoById(videoIds[currentVid])
+      player.playVideo();
+    }
+  }
+</script>
