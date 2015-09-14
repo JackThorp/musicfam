@@ -12,41 +12,35 @@ validate = (object) ->
 users =
 
   browse: (options) ->
-    new Promise (resolve, reject) ->
-      User.find({}).then (users) ->
-        resolve _.map(users, (user) -> user.read())
+    User.find({}).then (users) ->
+      _.map users, (user) -> user.read()
 
   read: (options) ->
     new Promise (resolve, reject) ->
-      auth = options.authentication
+      auth = options.user
       if not auth
         return reject status: 401, message: 'You do not have access rights to this URL'
       
-      resolve auth.user.map()
+      resolve auth.map()
 
   add: (object, options) ->
-    
-    new Promise (resolve, reject) ->
-      validate object
-      user = new User {username: object.username}
-      user.setPassword object.password
-      user.save()
-      resolve user.map()
+    validate object
+    user = new User {username: object.username}
+    user.setPassword object.password
+    user.save()
+    Promise.resolve user.map()
 
 
-  login: (object, options) ->
-   
-    new Promise (resolve, reject) ->
-      validate object
-      User.findOne(username: object.username).then (user) ->
-        if not user
-          return reject status: 404, message: 'no such user'
+  login: (object, options) ->   
+    validate object
+    User.findOne(username: object.username).then (user) ->
+      if not user then throw
+        status: 404, message: 'no such user'
       
-        if not user.authenticate object.password
-          return reject status: 401, message: 'incorrect password'
+      if not user.authenticate object.password then throw
+        status: 401, message: 'incorrect password'
       
-        resolve user.map()
+      user.map()
         
-
 
 module.exports = users

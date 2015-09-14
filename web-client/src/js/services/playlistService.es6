@@ -19,7 +19,7 @@ class PlaylistService {
   // Find all playlists belonging to currently logged in user
   findPersonal (userId) {
     return this.findAll().then((playlists) => {
-      return _.filter(playlists, {ownerID: userId})  
+      return _.filter(playlists, {owner: {_id: userId}})  
     })
   }
 
@@ -27,7 +27,7 @@ class PlaylistService {
   findPublic (userId) {
     return this.findAll().then((playlists) => {
       return _.filter(playlists, (pl) => {
-        return pl.ownerID != userId;
+        return pl.owner._id != userId;
       })  
     })
   }

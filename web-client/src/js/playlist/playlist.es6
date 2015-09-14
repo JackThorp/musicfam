@@ -68,7 +68,7 @@ class Playlist {
     // USE playlistService find - to get the cylinder for this view. 
     this.playlistService.find(this.id).then((playlist) => {
       
-      let editPermissions = this.loggedInUser._id == playlist.ownerID;
+      let editPermissions = this.loggedInUser._id == playlist.owner._id;
       editPermissions = editPermissions || playlist.editors.some((editor) => {return editor._id == this.loggedInUser._id})
 
       this.ractive.set('editPermissions', editPermissions);
@@ -89,7 +89,7 @@ class Playlist {
 
 
     this.ractive.on('addEditor', (e, user) => {
-      this.playlist.editors.push(user._id)
+      this.playlist.editors.push(user)
       this.playlistService.save(this.playlist)
     })
 

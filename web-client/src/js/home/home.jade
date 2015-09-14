@@ -1,4 +1,4 @@
-{{>navbar}}
+| {{>navbar}}
 .container
   .row
     .col-xs-12
@@ -9,13 +9,13 @@
             th Name
             th
         tbody
-          {{#each personalPlaylists:num}}
+          | {{#each personalPlaylists:num}}
           tr
             td 
               a(href="#/playlist/{{_id}}") {{name}}
             td
               span.glyphicon.glyphicon-trash.pull-right(aria-hidden="true" on-click="removeList:{{this}},{{num}}")
-          {{/each}}
+          | {{/each}}
           tr
             td
               input.form-control(type="text" placeholder="new list" value="{{newListName}}")
@@ -29,8 +29,8 @@
             tr
               th Name
           tbody
-            {{#each publicPlaylists:num}}
+            | {{#each publicPlaylists:num}}
             tr
               td 
                 a(href="#/playlist/{{_id}}") {{name}}
-            {{/each}}
+            | {{/each}}

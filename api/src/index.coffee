@@ -39,7 +39,6 @@ app.use (req, res, next) ->
 # Calling with no middleware currently
 
 app.use '/api', routes.api 
-app.use express.static 'api/public'
 app.use middleware.errorHandler
 
 module.exports = app

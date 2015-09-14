@@ -49,7 +49,6 @@ router.addRoute('404', new NotFoundC());
 
 // First thing on page load (before trying to route to the current hash) is to establish if the user
 // is logged in, and if not, whether they should be directed somewhere else first.
-console.log('wooooo')
 auth.restoreLogin().then(function() {
 
   // After login has been restored we can initialise routing. This will cause the router

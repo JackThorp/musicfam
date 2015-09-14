@@ -99,8 +99,8 @@ describe 'Playlist API routes', ->
               expect(playlist.editors).to.be.ok
               expect(playlist.editors).length.to.be 1
               expect(playlist.editors[0]._id == user2._id).to.be.ok
-              expect(playlist.ownerID).to.be.ok
-              expect(playlist.ownerID).to.equal user._id
+              expect(playlist.owner).to.be.ok
+              expect(playlist.owner._id).to.equal user._id
               done()
     
     it 'should be blocked if no authentication provided', (done) ->

@@ -13,6 +13,7 @@ Playlists =
     Playlist
       .find({})
       .populate('editors', 'username')
+      .populate('owner', 'username')
       .exec()
       .then (playlists) ->
         _.map playlists, (playlist) -> playlist.toObject(virtuals: true)
@@ -22,6 +23,7 @@ Playlists =
     Playlist
       .findById(options.id)
       .populate('editors', 'username')
+      .populate('owner', 'username')
       .exec()
       .then (playlist) ->
         
@@ -34,7 +36,7 @@ Playlists =
   add: (object, options) ->
 
     # Set the Playlist owner and add them as an editor of the Playlist. 
-    object.ownerID = options.user._id
+    object.owner = options.user._id
     if not object.editors then object.editors = [];
 
     new Playlist(object).save()
@@ -48,7 +50,7 @@ Playlists =
         status: 404, message: 'No Playlist found with id: ' + options.id
 
       userId = options.user._id
-      owner = userId.equals(Playlist.ownerID)
+      owner = userId.equals(Playlist.owner)
       editor = Playlist.editors.some (eid) -> userId.equals eid
 
       # Only editors and owner are allowed to modify this resource
@@ -69,7 +71,7 @@ Playlists =
         status: 404
         message: 'No Playlist found with id: ' + options.id
 
-      if not options.user._id.equals(Playlist.ownerID) then throw
+      if not options.user._id.equals(Playlist.owner) then throw
         status: 401
         message: 'You do not have permissions to delete this playPlaylist'
 

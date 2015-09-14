@@ -1,4 +1,4 @@
-{{>navbar}}
+| {{>navbar}}
 .container
   .row
     .col-xs-12
@@ -13,38 +13,38 @@
           tr
         thead
         tbody
-          {{#each playlist.tracks:index}}
+          | {{#each playlist.tracks:index}}
           tr
             td
-              a(href="{{url}}"){{url}}
+              a(href="{{url}}") {{url}}
 
-            {{#if editPermissions}}
+            | {{#if editPermissions}}
             td
               span.glyphicon.glyphicon-trash.pull-right(type="submit" on-click="deleteTrack:{{index}}")
-            {{/if}}
-          {{/each}}
+            | {{/if}}
+          | {{/each}}
 
-          {{#if editPermissions}}
+          | {{#if editPermissions}}
           tr
             td
               input.form-control(type="text" placeholder="new track" value="{{newTrackUrl}}")
             td
               button.btn.btn-block.btn-success.center-block(type="submit" on-click="newTrack:{{newTrackUrl}}") Add
-          {{/if}}
+          | {{/if}}
     .col-md-3.col-xs-12
       h4 Owner
       .list-group
-        a.list-group-item {{owner}}
+        a.list-group-item {{playlist.owner.username}}
       h4 Editors      
       .list-group
-        {{#each playlist.editors}}
+        | {{#each playlist.editors}}
         a.list-group-item {{username}}
-        {{/each}}
-        {{#if editPermissions}}
+        | {{/each}}
+        | {{#if editPermissions}}
         a.list-group-item 
           input.form-control(type="text" placeholder="Add collaborators" value="{{searchTerm}}")
           // span.glyphicon.glyphicon-plus.pull-right
-        {{/if}}
-        {{#each addEditorList}}
+        | {{/if}}
+        | {{#each addEditorList}}
         a.list-group-item(on-click="addEditor:{{this}}") {{username}}
-        {{/each}}
+        | {{/each}}

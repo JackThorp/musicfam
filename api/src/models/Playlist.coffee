@@ -14,9 +14,10 @@ PlaylistSchema = new Schema
     type: String
     required: true
   
-  ownerID:
-  	type: Schema.Types.ObjectId
-  	required: true
+  owner:
+    type: Schema.Types.ObjectId
+    ref: 'User'
+    required: true
 
   # Save as reference to user for mongoose population 
   editors: [{type: Schema.Types.ObjectId, ref: 'User'}]
@@ -25,7 +26,7 @@ PlaylistSchema = new Schema
 
 # Virtual method for making HAL response object.
 PlaylistSchema.virtual('_links').get ->
-  self: href: "api/playlists/" + this._id
+  self: href: "http://localhost:3000/api/playlists/" + this._id
 
 
 module.exports = mongoose.model 'Playlist', PlaylistSchema
