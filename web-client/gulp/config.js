@@ -9,7 +9,8 @@ module.exports.libs = [
   'store',
   'parsleyjs',
   'logdown',
-  'bluebird'
+  'bluebird',
+  'socket.io-client'
 ];
 
 module.exports.paths = {

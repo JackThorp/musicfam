@@ -2,8 +2,9 @@
 # RESTful API for Playlist resource
 _         = require 'lodash'
 Playlist  = require('../models').Playlist
-ytClient  = require '../utils/youtubeClient'
 Promise   = require 'bluebird'
+sockets   = require '../sockets'
+trackEnhancer = require '../utils/trackEnhancer'
 
 Playlists =
 
@@ -32,7 +33,7 @@ Playlists =
         if not playlist then throw
           status: 404, message: 'No Playlist found with id matching ' + options.id
         
-        playlist.toObject(virtuals:true)
+        playlist.toObject {virtuals:true}
 
 
   add: (object, options) ->
@@ -43,15 +44,12 @@ Playlists =
 
     # Fetch track titles (could be in a pre save hook?)
     if not object.tracks then object.tracks = [];
-    trackInfo = []
-    trackInfo.push ytClient.getTrackTitle(track.url) for track in object.tracks
+    trackEnhancer.getTrackInfo(object.tracks).then (tracks) ->
+      object.tracks = tracks
+      new Playlist(object).save().then (pl) -> 
+        sockets.newList(pl)
+        pl.toObject {virtuals: true}
 
-    Promise.settle(trackInfo).then (trackInfo) ->
-      for track, i in trackInfo
-        if track.isFulfilled() then object.tracks[i].title = track.value()
-      
-      new Playlist(object).save()
-    
 
 
   edit: (object, options) ->
@@ -68,16 +66,11 @@ Playlists =
       # Only editors and owner are allowed to modify this resource
       if not editor and not owner then throw
         status: 401, message: 'You do not have permissions to modify this playPlaylist' 
-
-      trackInfo = []
-      trackInfo.push ytClient.getTrackTitle(track.url) for track in object.tracks
-
-      Promise.settle(trackInfo).then (trackInfo) ->
-        for track, i in trackInfo
-          if track.isFulfilled() then object.tracks[i].title = track.value()
-        # If Playlist is found, update the model and save
+    
+      trackEnhancer.getTrackInfo(object.tracks).then (tracks) ->
+        object.tracks = tracks              
         _.extend Playlist, object
-        Playlist.save()
+        Playlist.save().then (pl) -> pl.toObject {virtuals: true}
 
 
   destroy: (options) ->
@@ -93,7 +86,9 @@ Playlists =
         status: 401
         message: 'You do not have permissions to delete this playPlaylist'
 
+      sockets.deletedList Playlist
       Playlist.remove _id: options.id
+
 
 
 module.exports = Playlists

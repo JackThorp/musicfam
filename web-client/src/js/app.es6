@@ -2,6 +2,7 @@ import Ractive  from 'ractive';
 import Logdown  from 'logdown';
 import axios    from 'axios';
 import Parsley  from 'parsleyjs';
+import io       from 'socket.io-client'
 
 // S suffix for SERVICES
 import Router     from './services/router.es6';
@@ -42,8 +43,10 @@ axios.interceptors.request.use(function(config) {
   return config;
 });
 
-router.addRoute('login', new LoginC(auth, events));
-router.addRoute('home', new HomeC(auth, events, plService));
+let socket = io.connect('http://localhost:3000');
+
+router.addRoute('login', new LoginC(auth, events, socket));
+router.addRoute('home', new HomeC(auth, events, plService, socket));
 router.addRoute('playlist/{id}', new PlaylistC(auth, events, plService, uService));
 router.addRoute('404', new NotFoundC());
 

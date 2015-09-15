@@ -1,8 +1,8 @@
-axios = require 'axios'
+axios 	= require 'axios'
+Promise = require 'bluebird'
 
 apiKey = 'AIzaSyAUwdWKlqYbj4YmcwjTXTw2ZnnfoAKdyms'
 apiURL = 'https://www.googleapis.com/youtube/v3'
-query  = 
 
 youtubeClient =
 
@@ -16,11 +16,12 @@ youtubeClient =
 		match = url.match regExp
 		if match && match[2].length == 11
   		match[2];
-		else 
-			console.log 'error: could not get videoId for ' + url
+		else
+			null
 
 	getTrackTitle: (url) ->
 		vidId = this.getVideoId url
+		if !vidId then return Promise.resolve(null)
 		this.getTitle(vidId)
 
 

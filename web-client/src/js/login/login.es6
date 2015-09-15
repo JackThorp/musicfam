@@ -3,9 +3,10 @@ import html from './login.ract'
 
 class Login {
 
-  constructor(auth, events) {
+  constructor(auth, events, socket) {
     this.auth = auth;
     this.events = events;
+    this.socket = socket;
   }
 
   render() {

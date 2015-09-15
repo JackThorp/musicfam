@@ -33,4 +33,8 @@
             tr
               td 
                 a(href="#/playlist/{{_id}}") {{name}}
+                  | {{#if isEditor}}
+                  span.glyphicon.glyphicon-star-empty.pull-right(aria-hidden="true")
+                  | {{/if}}
+
             | {{/each}}
