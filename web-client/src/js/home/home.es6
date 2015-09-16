@@ -8,8 +8,7 @@ class Home {
   constructor(auth, events, playlistService, socket){
     this.auth   = auth;
     this.events = events;
-    this.personalPlaylists = [];
-    this.publicPlaylists = [];
+    this.playlists = [];
     this.playlistService = playlistService;
     this.socket = socket;
   }
@@ -22,64 +21,45 @@ class Home {
       template: html,
       partials: {navbar: navbar},
       data: {
-        user: this.loggedInUser,
-        isEditor: function(pl) {
-          return false
-          for(var i = 0; i < pl.editors.length; i++){
-            if(pl.editors[i]._id == user._id) {
-              return true
-            }
-          }
-          return false
-        }
+        user: this.loggedInUser
       }
     });
 
-
-    this.ractive.on('newList', (e, name) => {
-      this.playlistService.add({name}).then((playlist) => {
-        // Ractive intercepts push method by default
-        console.log(playlist)
-        this.personalPlaylists.push(playlist);
-      });
+    this.ractive.on('addPlaylist', (e, name) => {
+      this.playlistService.add({name});
     });
 
-
-    this.ractive.on('removeList', (e, list, index) => {
-      this.playlistService.remove(list);
-      this.personalPlaylists.splice(index,1);
+    this.ractive.on('delPlaylist', (e, playlist) => {
+      this.playlistService.remove(playlist);
     });
-
 
     this.ractive.on('logout', () => this.logout()); 
 
-    this.setPrivatePlaylists();
-    this.setPublicPlaylists();
+    this.socket.on('saved-playlist', (pl) => this.changedPlaylist(pl));
+    this.socket.on('del-playlist', (pl) => this.deletePlaylist(pl));
 
-    this.socket.on('new-playlist', (pl) => this.updateAfterPlaylistChange(pl));
-    this.socket.on('del-playlist', (pl) => this.updateAfterPlaylistChange(pl));
-
-  }
-
-  updateAfterPlaylistChange(pl) {
-    if(pl.owner._id != this.loggedInUser._id) {
-      this.setPublicPlaylists();
-    }
-  }
-
-  setPrivatePlaylists() {
-    this.playlistService.findPersonal(this.loggedInUser._id).then((playlists) => {
-      // ractive.update only works with modification like ar[3] = n. not like ar = [];
-      this.personalPlaylists = playlists;
-      this.ractive.set('personalPlaylists', this.personalPlaylists);
-    })    
-  }
-
-  setPublicPlaylists() {
-    this.playlistService.findPublic(this.loggedInUser._id).then((publicPlaylists) => {
-      this.publicPlaylists = publicPlaylists;
-      this.ractive.set('publicPlaylists', this.publicPlaylists);
+    this.playlistService.findAll(this.loggedInUser._id).then((playlists) => {
+      this.playlists = playlists;
+      this.ractive.set('playlists', this.playlists);
     });
+
+  }
+
+  changedPlaylist(pl) {
+    this.playlistService.find(pl._id, this.loggedInUser._id).then((fullPl) => { 
+      let thisPl = _.find(this.playlists, {_id: pl._id})
+      
+      // If the playlist already exists it must be removed. (otherwise it is new)
+      if(thisPl) {
+        this.playlists.splice(_.indexOf(thisPl), 1)
+      }
+      this.playlists.push(fullPl)
+    })
+  }
+
+  deletePlaylist(pl) {
+    let index = _.indexOf(_.find(this.playlists, {_id: pl._id}))
+    this.playlists.splice(index,1);
   }
 
   logout() {

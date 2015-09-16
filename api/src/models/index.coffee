@@ -1,6 +1,6 @@
 
-Playlist  = require './Playlist.coffee'
-User      = require './User.coffee'
+Playlist  = require './playlist'
+User      = require './user'
 _         = require 'lodash'
 
 

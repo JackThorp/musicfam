@@ -10,17 +10,20 @@
             <th></th>
           </tr>
         </thead>
-        <tbody>{{#each personalPlaylists:num}}
+        <tbody>
+          {{#each playlists}}
+          {{#if isOwner}}
           <tr>
             <td> <a href="#/playlist/{{_id}}">{{name}}</a></td>
-            <td><span aria-hidden="true" on-click="removeList:{{this}},{{num}}" class="glyphicon glyphicon-trash pull-right"></span></td>
-          </tr>{{/each}}
+            <td><span aria-hidden="true" on-click="delPlaylist:{{this}}" class="glyphicon glyphicon-trash pull-right"></span></td>
+          </tr>{{/if}}
+          {{/each}}
           <tr>
             <td>
               <input type="text" placeholder="new list" value="{{newListName}}" class="form-control"/>
             </td>
             <td>
-              <button type="submit" on-click="newList:{{newListName}}" class="btn btn-block btn-success center-block">Add</button>
+              <button type="submit" on-click="addPlaylist:{{newListName}}" class="btn btn-block btn-success center-block">Add</button>
             </td>
           </tr>
         </tbody>
@@ -36,12 +39,15 @@
             <th>Name</th>
           </tr>
         </thead>
-        <tbody>{{#each publicPlaylists:num}}
+        <tbody>
+          {{#each playlists}}
+          {{#if !isOwner}}
           <tr>
             <td> <a href="#/playlist/{{_id}}">
                 {{name}}
                 {{#if isEditor}}<span aria-hidden="true" class="glyphicon glyphicon-star-empty pull-right"></span>{{/if}}</a></td>
-          </tr>{{/each}}
+          </tr>{{/if}}
+          {{/each}}
         </tbody>
       </table>
     </div>

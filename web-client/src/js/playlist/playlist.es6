@@ -6,10 +6,11 @@ import _        from 'lodash'
 
 class Playlist {
 
-  constructor(auth, events, playlistService, userService) {
+  constructor(auth, events, playlistService, userService, socket) {
     this.axios    = axios;
     this.auth     = auth;
     this.events   = events;
+    this.socket   = socket;
     this.playlistService = playlistService;
     this.userService  = userService;
     this.playlist = {};
@@ -62,19 +63,7 @@ class Playlist {
       this.users = users;
       this.ractive.set('users', this.users);
     })
-
-    // USE playlistService find - to get the playlists for this view. 
-    this.playlistService.find(this.id).then((playlist) => {
-
-      console.log(playlist)
-      let editPermissions = this.loggedInUser._id == playlist.owner._id || 
-        playlist.editors.some((editor) => {return editor._id == this.loggedInUser._id})
-
-      this.ractive.set('editPermissions', editPermissions);
-      this.playlist = playlist;
-      this.ractive.set('playlist', this.playlist);
-    });
-
+   
     // To Add and delete tracks simply modify the playlist and call cylinderListService.save(playlist);
     this.ractive.on('newTrack', (e, url) => {
       this.playlist.tracks.push({url:url});
@@ -86,7 +75,6 @@ class Playlist {
       this.playlistService.save(this.playlist);
     });
 
-
     this.ractive.on('addEditor', (e, user) => {
       this.playlist.editors.push(user)
       this.playlistService.save(this.playlist)
@@ -94,6 +82,24 @@ class Playlist {
 
     this.ractive.on('logout', () => this.logout());
 
+    this.socket.on('saved-playlist', (pl) => this.savedPlaylist(pl))
+    this.socket.on('del-playlist', (pl) => console.log('go to sorry page'));
+
+    this.getPlaylist(this.id);
+
+  }
+
+  savedPlaylist(pl) {
+    if(pl._id == this.playlist._id) {
+      this.getPlaylist(pl._id);
+    }
+  }
+
+  getPlaylist(id) {
+    this.playlistService.find(id, this.loggedInUser._id).then((playlist) => {
+      this.playlist = playlist;
+      this.ractive.set('playlist', this.playlist);
+    });
   }
 
   isProtected(){

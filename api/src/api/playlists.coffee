@@ -46,9 +46,7 @@ Playlists =
     if not object.tracks then object.tracks = [];
     trackEnhancer.getTrackInfo(object.tracks).then (tracks) ->
       object.tracks = tracks
-      new Playlist(object).save().then (pl) -> 
-        sockets.newList(pl)
-        pl.toObject {virtuals: true}
+      new Playlist(object).save().then (pl) -> pl.toObject {virtuals: true}
 
 
 
@@ -86,7 +84,6 @@ Playlists =
         status: 401
         message: 'You do not have permissions to delete this playPlaylist'
 
-      sockets.deletedList Playlist
       Playlist.remove _id: options.id
 
 

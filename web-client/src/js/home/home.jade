@@ -9,18 +9,20 @@
             th Name
             th
         tbody
-          | {{#each personalPlaylists:num}}
+          | {{#each playlists}}
+          | {{#if isOwner}}
           tr
             td 
               a(href="#/playlist/{{_id}}") {{name}}
             td
-              span.glyphicon.glyphicon-trash.pull-right(aria-hidden="true" on-click="removeList:{{this}},{{num}}")
+              span.glyphicon.glyphicon-trash.pull-right(aria-hidden="true" on-click="delPlaylist:{{this}}")
+          | {{/if}}
           | {{/each}}
           tr
             td
               input.form-control(type="text" placeholder="new list" value="{{newListName}}")
             td
-              button.btn.btn-block.btn-success.center-block(type="submit" on-click="newList:{{newListName}}") Add
+              button.btn.btn-block.btn-success.center-block(type="submit" on-click="addPlaylist:{{newListName}}") Add
   .row
       .col-xs-12
         h3 Playlists by others
@@ -29,12 +31,13 @@
             tr
               th Name
           tbody
-            | {{#each publicPlaylists:num}}
+            | {{#each playlists}}
+            | {{#if !isOwner}}
             tr
               td 
                 a(href="#/playlist/{{_id}}") {{name}}
                   | {{#if isEditor}}
                   span.glyphicon.glyphicon-star-empty.pull-right(aria-hidden="true")
                   | {{/if}}
-
+            | {{/if}}
             | {{/each}}

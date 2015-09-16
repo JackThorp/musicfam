@@ -8,28 +8,28 @@ class PlaylistService {
     this.Playlist = Playlist;
   }
 
-  find (id) {
-    return this.Playlist.find(id);
+  find (id, uid) {
+    return this.Playlist.find(id).then((playlist) => {
+      return this.setPermissions(playlist, uid)
+    });
   }
 
-  findAll () {
-    return this.Playlist.findAll();
-  }
-
-  // Find all playlists belonging to currently logged in user
-  findPersonal (userId) {
-    return this.findAll().then((playlists) => {
-      return _.filter(playlists, {owner: {_id: userId}})  
-    })
-  }
-
-  // Find all public playlists (those which logged in user does not own)
-  findPublic (userId) {
-    return this.findAll().then((playlists) => {
-      return _.filter(playlists, (pl) => {
-        return pl.owner._id != userId;
+  findAll (uid) {
+    return this.Playlist.findAll().then((playlists) => {
+      return _.map(playlists, (pl) => {
+        return this.setPermissions(pl, uid)
       })  
-    })
+    });
+  }
+
+  setPermissions(pl, uid){
+    if(pl.owner._id == uid) {
+      pl.isOwner = true
+    }
+    if(_.find(pl.editors, {_id: uid})) {
+      pl.isEditor = true
+    }
+    return pl
   }
 
   // Create and return a new playlist.

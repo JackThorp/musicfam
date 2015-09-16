@@ -13,11 +13,22 @@ server.on 'error', (err) -> console.log err
 server.on 'listen', () -> console.log "app listening on port #{port}"
 
 
-# Listen for web socket connections. 
+PlaylistSchema = require('../src/models/playlist-schema')
+
+# - - SOCKETS - -
 # MUST COME BEFORE server.listen()! 
-io = require('socket.io').listen(server)
-require('../src/sockets').setSocket io
-app.set 'io', io
+io = require('socket.io') server
+
+io.on 'connection', (socket) ->
+  console.log 'client connected'
+
+  PlaylistSchema.post 'save', (doc) ->
+    console.log '%s has been saved', doc._id
+    socket.emit 'saved-playlist', doc
+
+  PlaylistSchema.post 'remove', (doc) ->
+    console.log '%s has been removed', doc._id
+    socket.emit 'del-playlist', doc
 
 server.listen(port);
 

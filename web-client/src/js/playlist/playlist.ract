@@ -31,10 +31,10 @@
                 {{title}}
                 {{else}}
                 {{url}}
-                {{/if}}</a></td>{{#if editPermissions}}
+                {{/if}}</a></td>{{#if  playlist.isOwner || playlist.isEditor}}
             <td><span type="submit" on-click="deleteTrack:{{index}}" class="glyphicon glyphicon-trash pull-right"></span></td>{{/if}}
           </tr>{{/each}}
-          {{#if editPermissions}}
+          {{#if  playlist.isOwner || playlist.isEditor}}
           <tr>
             <td>
               <input type="text" placeholder="new track" value="{{newTrackUrl}}" class="form-control"/>
@@ -51,7 +51,7 @@
       <div class="list-group"><a class="list-group-item">{{playlist.owner.username}}</a></div>
       <h4>Editors      </h4>
       <div class="list-group">{{#each playlist.editors}}<a class="list-group-item">{{username}}</a>{{/each}}
-        {{#if editPermissions}}<a class="list-group-item"> 
+        {{#if playlist.isOwner || playlist.isEditor}}<a class="list-group-item"> 
           <input type="text" placeholder="Add collaborators" value="{{searchTerm}}" class="form-control"/>
           <!-- span.glyphicon.glyphicon-plus.pull-right--></a>{{/if}}
         {{#each addEditorList}}<a on-click="addEditor:{{this}}" class="list-group-item">{{username}}</a>{{/each}}

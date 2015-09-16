@@ -47,7 +47,7 @@ let socket = io.connect('http://localhost:3000');
 
 router.addRoute('login', new LoginC(auth, events, socket));
 router.addRoute('home', new HomeC(auth, events, plService, socket));
-router.addRoute('playlist/{id}', new PlaylistC(auth, events, plService, uService));
+router.addRoute('playlist/{id}', new PlaylistC(auth, events, plService, uService, socket));
 router.addRoute('404', new NotFoundC());
 
 // First thing on page load (before trying to route to the current hash) is to establish if the user

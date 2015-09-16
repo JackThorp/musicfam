@@ -26,13 +26,13 @@
                 | {{else}}
                 | {{url}}
                 | {{/if}}
-            | {{#if editPermissions}}
+            | {{#if  playlist.isOwner || playlist.isEditor}}
             td
               span.glyphicon.glyphicon-trash.pull-right(type="submit" on-click="deleteTrack:{{index}}")
             | {{/if}}
           | {{/each}}
 
-          | {{#if editPermissions}}
+          | {{#if  playlist.isOwner || playlist.isEditor}}
           tr
             td
               input.form-control(type="text" placeholder="new track" value="{{newTrackUrl}}")
@@ -48,7 +48,7 @@
         | {{#each playlist.editors}}
         a.list-group-item {{username}}
         | {{/each}}
-        | {{#if editPermissions}}
+        | {{#if playlist.isOwner || playlist.isEditor}}
         a.list-group-item 
           input.form-control(type="text" placeholder="Add collaborators" value="{{searchTerm}}")
           // span.glyphicon.glyphicon-plus.pull-right

@@ -35,10 +35,12 @@ app.use (req, res, next) ->
       req.user = user
       next()
 
+
 # - - ROUTES - - 
 # Calling with no middleware currently
 
 app.use '/api', routes.api 
 app.use middleware.errorHandler
+
 
 module.exports = app
