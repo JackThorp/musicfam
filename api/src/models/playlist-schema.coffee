@@ -6,6 +6,9 @@ UrlSchema = new Schema
   title:
     type: String
 
+  videoId:
+    type: String
+
   url:
     type: String
     required: true

@@ -13,7 +13,9 @@ class Playlist {
     this.socket   = socket;
     this.playlistService = playlistService;
     this.userService  = userService;
+    this.player   = {};
     this.playlist = {};
+    this.currentVid = 0
   }
 
   render(hash) {
@@ -87,6 +89,32 @@ class Playlist {
 
     this.getPlaylist(this.id);
 
+    let readyInt = setInterval(() => {
+      let self = this;
+      if(YT) {
+        this.player = new YT.Player('player', {
+          height: '293',
+          width: '480',
+          events: {
+            'onReady': function(event) {
+              event.target.playVideo();
+              self.player.cueVideoById(self.playlist.tracks[self.currentVid].videoId)
+              self.player.playVideo();            
+            },
+            'onStateChange': function(event) { 
+              if (event.data == YT.PlayerState.ENDED) {
+                console.log('ENDED');
+                self.currentVid++;
+                self.player.cueVideoById(self.playlist.tracks[self.currentVid].videoId)
+                self.player.playVideo();
+              }
+            }
+          }
+        });
+        clearInterval(readyInt);
+      }
+    }, 500);
+
   }
 
   savedPlaylist(pl) {
@@ -97,6 +125,7 @@ class Playlist {
 
   getPlaylist(id) {
     this.playlistService.find(id, this.loggedInUser._id).then((playlist) => {
+      console.log(playlist)
       this.playlist = playlist;
       this.ractive.set('playlist', this.playlist);
     });

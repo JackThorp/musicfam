@@ -3,7 +3,6 @@
 _         = require 'lodash'
 Playlist  = require('../models').Playlist
 Promise   = require 'bluebird'
-sockets   = require '../sockets'
 trackEnhancer = require '../utils/trackEnhancer'
 
 Playlists =

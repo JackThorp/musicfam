@@ -24,5 +24,12 @@ youtubeClient =
 		if !vidId then return Promise.resolve(null)
 		this.getTitle(vidId)
 
+	getTrackInfo: (url) ->
+		vidId = this.getVideoId url
+		if !vidId then return Promise.resolve(null)
+		this.getTitle(vidId).then (title) ->
+			title: title, videoId: vidId
+
+
 
 module.exports = youtubeClient

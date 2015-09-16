@@ -47,6 +47,11 @@ module.exports.paths = {
     dest: './dist/js/'
   },
 
+  bootstrap: {
+    src: './node_modules/bootstrap/dist/js/bootstrap.min.js',
+    dest: './dist/js/'
+  },
+
   fonts: {
     src: ['./node_modules/bootstrap/dist/fonts/*'],
     dest: './dist/fonts/'
