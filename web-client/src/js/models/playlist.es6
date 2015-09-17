@@ -51,7 +51,7 @@ class Playlist {
     // Future fix would be to attach update links to resources in backend for more
     // RESTful behaviour.
     if(this._id) {
-      return axios.put(this._links.self.href, this)
+      return axios.put(config.api + this._links.self.href, this)
         .then(Playlist.mapPlaylist, (err) => console.log(err));
     }
 
@@ -60,7 +60,7 @@ class Playlist {
   }
 
   del() {
-    return axios.delete(this._links.self.href);
+    return axios.delete(config.api + this._links.self.href);
   }
 }
 

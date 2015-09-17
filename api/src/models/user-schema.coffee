@@ -1,6 +1,7 @@
 mongoose  = require 'mongoose'
 crypto    = require 'crypto'
 jwt       = require 'jsonwebtoken'
+config    = require '../config'
 
 
 UserSchema = new mongoose.Schema(
@@ -32,7 +33,7 @@ UserSchema.methods.map = ->
   user:
     _id: this._id
     username: this.username
-  accessToken: jwt.sign username: this.username, 'secretKey'
+  accessToken: jwt.sign username: this.username, config.token_secret
 
 UserSchema.methods.read = ->
   _id: this._id

@@ -1,7 +1,7 @@
 express     = require 'express'
 bodyParser  = require 'body-parser'
 routes      = require './routes'
-conf        = require './config'
+config      = require './config'
 middleware  = require './middleware'
 
 User  = require('./models').User
@@ -19,15 +19,13 @@ app.use (req, res, next) ->
   res.header 'Access-Control-Allow-Headers', 'X-Auth-Token, Content-Type'
   next()
 
-# Decodes and inspects the X-Auth-Token header. Returns false if the token
-# is non-existant or invalid. Returns the authenticated user object 
-# if token is valid.
+# Decodes the X-Auth-Token and attaches any user info to the request object.
 app.use (req, res, next) ->
   req.user = false
 
   token = req.get 'X-Auth-Token'
   if not token then return next()
-  jwt.verify token, 'secretKey', (err, decodedToken) ->  
+  jwt.verify token, config.token_secret, (err, decodedToken) ->  
 
     if err then return next()
 

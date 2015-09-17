@@ -52,6 +52,23 @@ describe 'User API routes', () ->
           if err then return done err
           expect(res.body?.message).to.be.ok
           done()
+
+    it 'should return a 403 if the username already exists', (done) ->
+
+      request(app)
+        .post('/api/users')
+        .send( username: 'DJ', password:'EZ')
+        .expect(200)
+        .end (err, res) ->
+          if err then return done err
+          request(app)
+            .post('/api/users')
+            .send( username: 'DJ', password:'EZ')
+            .expect(403)
+            .end (err, res) ->
+              if err then return done err
+              expect(res.body?.message).to.be.ok
+              done()
   
   
   describe 'Login POST /api/users/login', ->
@@ -87,13 +104,13 @@ describe 'User API routes', () ->
 
       request(app)
         .post('/api/users')
-        .send( username: 'bob', password: 'right')
+        .send( username: 'alice', password: 'easy')
         .expect(200)
         .end (err, res) ->
           if err then return done err
           request(app)
             .post('/api/users/login')
-            .send( username: 'bob', password: 'right')
+            .send( username: 'alice', password: 'easy')
             .expect(200)
             .end (err, res) ->
               if err then return done err

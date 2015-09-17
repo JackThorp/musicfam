@@ -7,6 +7,7 @@ apiURL = 'https://www.googleapis.com/youtube/v3'
 youtubeClient =
 
 	getTitle: (videoId) ->
+		if !videoId then return Promise.resolve(null)
 		axios
 			.get(apiURL + "/videos?part=snippet&id=#{videoId}&fields=items%2Fsnippet%2Ftitle&key=#{apiKey}")
 			.then (response) -> response?.data?.items[0]?.snippet?.title 
@@ -21,14 +22,12 @@ youtubeClient =
 
 	getTrackTitle: (url) ->
 		vidId = this.getVideoId url
-		if !vidId then return Promise.resolve(null)
 		this.getTitle(vidId)
 
 	getTrackInfo: (url) ->
-		vidId = this.getVideoId url
-		if !vidId then return Promise.resolve(null)
-		this.getTitle(vidId).then (title) ->
-			title: title, videoId: vidId
+		videoId = this.getVideoId url
+		this.getTitle(videoId).then (title) ->
+			title: title, videoId: videoId
 
 
 

@@ -1,5 +1,6 @@
 ytClient  = require './youtubeClient'
 Promise   = require 'bluebird'
+_					= require 'lodash'
 
 trackEnhancer =
 
@@ -8,15 +9,8 @@ trackEnhancer =
 		trackInfo.push ytClient.getTrackInfo(track.url) for track in tracks
 
 		Promise.settle(trackInfo).then (trackInfo) ->
-			for newTrack, i in trackInfo
-				if newTrack.isFulfilled()
-					newTrackInfo = newTrack.value()
-					tracks[i].title = newTrackInfo.title
-					tracks[i].videoId = newTrackInfo.videoId
+			for trackData, i in trackInfo
+				_.extend(tracks[i], trackData.value())
 			tracks
-	
-	log: (msg) ->
-		console.log msg
-
 
 module.exports = trackEnhancer

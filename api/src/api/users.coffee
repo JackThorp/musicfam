@@ -25,10 +25,13 @@ users =
 
   add: (object, options) ->
     validate object
-    user = new User {username: object.username}
-    user.setPassword object.password
-    user.save()
-    Promise.resolve user.map()
+    User.findOne(username: object.username).then (user) ->
+      if user then throw status:403, message: 'User name already exists'
+      
+      user = new User {username: object.username}
+      user.setPassword object.password
+      user.save()
+      Promise.resolve user.map()
 
 
   login: (object, options) ->   

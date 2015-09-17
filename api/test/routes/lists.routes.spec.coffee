@@ -210,9 +210,24 @@ describe 'Playlist API routes', ->
         .expect(404)
         .end done
 
-    it 'shoule not allow a non-editor to change the owner', (done) ->
-      expect(false).to.be.ok
-      done()
+    it 'shoule not allow any user to change the owner', (done) ->
+      request(app)
+        .post('/api/playlists')
+        .set('X-Auth-Token', authToken)
+        .send( name: "list")
+        .expect(200)
+        .end (err, res) ->
+          if err then return done err
+          list = res.body
+          request(app)
+            .put('/api/playlists/' + list._id)
+            .set('X-Auth-Token', authToken)
+            .send(owner: _id: mongoose.Types.ObjectId())
+            .expect(403)
+            .end (err, res) ->
+              if err then return done err
+              expect(res.body.message).to.be.ok
+              done()
 
     it 'should allow an editors to add tracks', (done) ->
       request(app)

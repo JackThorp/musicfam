@@ -18,7 +18,7 @@ Playlists =
       .populate('owner', 'username')
       .exec()
       .then (playlists) ->
-        _.map playlists, (playlist) -> playlist.toObject(virtuals: true)
+        _.map playlists, (playlist) -> playlist.toObject {virtuals: true}
 
 
   read: (options) ->
@@ -50,24 +50,28 @@ Playlists =
 
 
   edit: (object, options) ->
-    Playlist.findById(options.id).then (Playlist) ->
+    Playlist.findById(options.id).then (playlist) ->
 
       # If Playlist could not be found return 404
-      if not Playlist then throw
+      if not playlist then throw
         status: 404, message: 'No Playlist found with id: ' + options.id
 
+      putOwner = object?.owner?._id
+      if putOwner && putOwner != playlist.owner then throw
+        status: 403, message: 'The playlist owner cannot be modified'
+
       userId = options.user._id
-      owner = userId.equals(Playlist.owner)
-      editor = Playlist.editors.some (eid) -> userId.equals eid
+      owner = userId.equals(playlist.owner)
+      editor = playlist.editors.some (eid) -> userId.equals eid
 
       # Only editors and owner are allowed to modify this resource
       if not editor and not owner then throw
-        status: 401, message: 'You do not have permissions to modify this playPlaylist' 
+        status: 401, message: 'You do not have permissions to modify this playlist' 
     
       trackEnhancer.getTrackInfo(object.tracks).then (tracks) ->
         object.tracks = tracks              
-        _.extend Playlist, object
-        Playlist.save().then (pl) -> pl.toObject {virtuals: true}
+        _.extend playlist, object
+        playlist.save().then (pl) -> pl.toObject {virtuals: true}
 
 
   destroy: (options) ->

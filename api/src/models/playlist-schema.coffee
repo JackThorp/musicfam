@@ -32,6 +32,6 @@ PlaylistSchema = new Schema
 
 # Virtual method for making HAL response object.
 PlaylistSchema.virtual('_links').get ->
-  self: href: "http://localhost:3000/api/playlists/" + this._id
+  self: href: "/playlists/" + this._id
 
 module.exports = PlaylistSchema
