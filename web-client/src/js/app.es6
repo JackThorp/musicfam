@@ -43,7 +43,7 @@ axios.interceptors.request.use(function(config) {
   return config;
 });
 
-let socket = io.connect('http://localhost:3000');
+let socket = io.connect(config.socket, {path: config.socket_path});
 
 router.addRoute('login', new LoginC(auth, events, socket));
 router.addRoute('home', new HomeC(auth, events, plService, socket));

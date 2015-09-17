@@ -1,5 +1,5 @@
 
-Playlist  = require './playlist'
+Playlist  = require './Playlist'
 User      = require './user'
 _         = require 'lodash'
 
