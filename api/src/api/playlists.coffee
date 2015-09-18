@@ -57,7 +57,7 @@ Playlists =
         status: 404, message: 'No Playlist found with id: ' + options.id
 
       putOwner = object?.owner?._id
-      if putOwner && putOwner != playlist.owner then throw
+      if putOwner && not playlist.owner.equals putOwner then throw
         status: 403, message: 'The playlist owner cannot be modified'
 
       userId = options.user._id
