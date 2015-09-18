@@ -38,10 +38,13 @@ class Home {
     this.socket.on('saved-playlist', (pl) => this.changedPlaylist(pl));
     this.socket.on('del-playlist', (pl) => this.deletePlaylist(pl));
 
-    this.playlistService.findAll(this.loggedInUser._id).then((playlists) => {
-      this.playlists = playlists;
-      this.ractive.set('playlists', this.playlists);
-    });
+    if(this.loggedInUser && this.loggedInUser._id) {
+      this.playlistService.findAll(this.loggedInUser._id).then((playlists) => {
+        this.playlists = playlists;
+        this.ractive.set('playlists', this.playlists);
+      });  
+    } 
+    
 
   }
 

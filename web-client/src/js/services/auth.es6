@@ -23,7 +23,6 @@ class Auth {
   }
 
   restoreLogin() {
-    console.log(this.config.api + '/users/login')
     return this.http.get(this.config.api + '/users/login').then(
         (response)  =>  {
           this.store.memory.set('user', response.data.user);

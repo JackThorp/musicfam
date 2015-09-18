@@ -9,7 +9,7 @@ class Router {
     this.events = events;
   }
 
-  initialise() {
+  initialise(path) {
     // looks like hasher watches hash and emits signals
     // Here we declare how to handle initial hash and any
     // further changes.
@@ -17,6 +17,10 @@ class Router {
     hasher.changed.add(this.parseHash);
     hasher.init();
 
+    // Navigate to app entry point(path) if there is no #fragment
+    if(!hasher.getHash()) {
+      hasher.setHash(path)
+    }
     // bypassed callbacks are run everytime a route cuold not be found to match the request.
     // Writing like this capture this in the closure?
     crossroads.bypassed.add(() => this.bypassedHandler());
@@ -46,8 +50,13 @@ class Router {
   }
 
   matchedHandler(path, view) {
+    // Can't transition to protected route if not logged in.
     if(view.isProtected() && !this.auth.loggedInUser()) {
       view.unrender().then(() => this.events.routing.accessDenied.dispatch(path));
+    }
+    // Don't allow transition to login page if user is logged in.
+    if(path == 'login' && this.auth.loggedInUser()) {
+      this.events.routing.transitionTo.dispatch('home', view);
     }
   }
 

@@ -50,6 +50,7 @@ router.addRoute('home', new HomeC(auth, events, plService, socket));
 router.addRoute('playlist/{id}', new PlaylistC(auth, events, plService, uService, socket));
 router.addRoute('404', new NotFoundC());
 
+
 // First thing on page load (before trying to route to the current hash) is to establish if the user
 // is logged in, and if not, whether they should be directed somewhere else first.
 auth.restoreLogin().then(function() {
@@ -60,7 +61,7 @@ auth.restoreLogin().then(function() {
   // a) we can cleanly check that the user is authenticated for the page
   // b) the restored login handler can transition to any appropriate pages BEFORE the router
   //    initialises and starts to auto load whatever location the app might be at.
-  router.initialise();
+  router.initialise('home');
 });
 
 // Event is fired after auth service has attempted to log in.
