@@ -80,6 +80,18 @@ class Playlist {
     this.ractive.on('addEditor', (e, user) => {
       this.playlist.editors.push(user)
       this.playlistService.save(this.playlist)
+      this.ractive.set('searchTerm', '')
+    })
+
+    this.ractive.on('shuffle', (e) => {
+      this.shuffle(this.playlist.tracks)
+    })
+
+    this.ractive.on('playTrack', (e, index) => {this.currentVid = index; this.playNext()})
+    this.ractive.on('playNext', (e) => { this.playNext() })
+    this.ractive.on('playLast', (e) => { 
+      this.currentVid = Math.max(this.currentVid-=2, 0);
+      this.playNext(); 
     })
 
     this.ractive.on('logout', () => this.logout());
@@ -98,22 +110,46 @@ class Playlist {
           events: {
             'onReady': function(event) {
               event.target.playVideo();
-              self.player.cueVideoById(self.playlist.tracks[self.currentVid].videoId)
-              self.player.playVideo();            
+              self.playNext();          
             },
-            'onStateChange': function(event) { 
+            'onStateChange': function(event) {
               if (event.data == YT.PlayerState.ENDED) {
-                console.log('ENDED');
-                self.currentVid++;
-                self.player.cueVideoById(self.playlist.tracks[self.currentVid].videoId)
-                self.player.playVideo();
-              }
+                self.playNext();
+              } 
             }
           }
         });
         clearInterval(readyInt);
       }
     }, 500);
+
+  }
+
+  playNext() {
+    this.player.cueVideoById(this.playlist.tracks[this.currentVid].videoId)
+    this.player.playVideo();
+    this.currentVid++;
+  }
+
+  shuffle() {
+    var currentIndex = this.playlist.tracks.length, temporaryValue, randomIndex ;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = this.playlist.tracks[currentIndex];
+      this.playlist.tracks[currentIndex] = this.playlist.tracks[randomIndex];
+      this.playlist.tracks[randomIndex] = temporaryValue;
+    }
+
+    this.ractive.set('playlist', this.playlist)
+    this.currentVid = 0;
+    this.playNext()
 
   }
 

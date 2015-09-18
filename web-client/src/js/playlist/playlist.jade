@@ -9,10 +9,20 @@
         .embed-responsive-item
           #player
   .row
+    .col-xs-12
+      .text-center(style="padding-top: 25px;padding-bottom: 10px")
+        button.btn.btn-default.btn-lg(type="button" on-click="playLast")
+          span.glyphicon.glyphicon-backward
+        button.btn.btn-default.btn-lg(type="button" on-click="shuffle")
+          span.glyphicon.glyphicon-random
+        button.btn.btn-default.btn-lg(type="button" on-click="playNext")
+          span.glyphicon.glyphicon-forward
+  .row
     .col-md-9.col-xs-12
-      table.table
+      table.table.table-hover
         thead
           tr
+            th #
             th Tracks
             th
           tr
@@ -20,13 +30,14 @@
         tbody
           | {{#each playlist.tracks:index}}
           tr
-            td
-              a(href="{{url}}") 
-                | {{#if title}}
-                | {{title}}
-                | {{else}}
-                | {{url}}
-                | {{/if}}
+            td(width="5%")
+              {{index + 1}}.
+            td(on-click="playTrack:{{index}}") 
+              | {{#if title}}
+              | {{title}}
+              | {{else}}
+              | {{url}}
+              | {{/if}}
             | {{#if  playlist.isOwner || playlist.isEditor}}
             td
               span.glyphicon.glyphicon-trash.pull-right(type="submit" on-click="deleteTrack:{{index}}")
@@ -35,7 +46,7 @@
 
           | {{#if  playlist.isOwner || playlist.isEditor}}
           tr
-            td
+            td(colspan=2)
               input.form-control(type="text" placeholder="new track" value="{{newTrackUrl}}")
             td
               button.btn.btn-block.btn-success.center-block(type="submit" on-click="newTrack:{{newTrackUrl}}") Add

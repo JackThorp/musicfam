@@ -15,10 +15,20 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-xs-12">
+      <div style="padding-top: 25px;padding-bottom: 10px" class="text-center">
+        <button type="button" on-click="playLast" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-backward"></span></button>
+        <button type="button" on-click="shuffle" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-random"></span></button>
+        <button type="button" on-click="playNext" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-forward"></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-9 col-xs-12">
-      <table class="table">
+      <table class="table table-hover">
         <thead>
           <tr>
+            <th>#</th>
             <th>Tracks</th>
             <th></th>
           </tr>
@@ -27,18 +37,20 @@
         <thead></thead>
         <tbody>{{#each playlist.tracks:index}}
           <tr>
-            <td><a href="{{url}}">
-                 
-                {{#if title}}
-                {{title}}
-                {{else}}
-                {{url}}
-                {{/if}}</a></td>{{#if  playlist.isOwner || playlist.isEditor}}
+            <td width="5%">{{index + 1}}.</td>
+            <td on-click="playTrack:{{index}}">
+               
+              {{#if title}}
+              {{title}}
+              {{else}}
+              {{url}}
+              {{/if}}
+            </td>{{#if  playlist.isOwner || playlist.isEditor}}
             <td><span type="submit" on-click="deleteTrack:{{index}}" class="glyphicon glyphicon-trash pull-right"></span></td>{{/if}}
           </tr>{{/each}}
           {{#if  playlist.isOwner || playlist.isEditor}}
           <tr>
-            <td>
+            <td colspan="2">
               <input type="text" placeholder="new track" value="{{newTrackUrl}}" class="form-control"/>
             </td>
             <td>
