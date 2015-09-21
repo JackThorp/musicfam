@@ -6,8 +6,10 @@ _         = require 'lodash'
 User  = require('../models').User
 
 validate = (object) ->
-  if not (object.username and object.password)
-    throw status: 400, message: 'Missing fields'
+  if not object.username
+    throw status: 400, message: 'Username required.'
+  if not object.password
+    throw status: 400, message: 'Password required.'
 
 users =
 
@@ -38,10 +40,10 @@ users =
     validate object
     User.findOne(username: object.username).then (user) ->
       if not user then throw
-        status: 404, message: 'no such user'
+        status: 404, message: 'Username does not exist.'
       
       if not user.authenticate object.password then throw
-        status: 401, message: 'incorrect password'
+        status: 401, message: 'Incorrect password.'
       
       user.map()
         

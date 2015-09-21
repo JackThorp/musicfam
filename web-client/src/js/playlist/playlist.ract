@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h1>{{playlist.name}}</h1>
+      <h2>{{playlist.name}}</h2>
     </div>
   </div>
   <div class="row">
@@ -30,6 +30,7 @@
           <tr>
             <th>#</th>
             <th>Tracks</th>
+            <th>Added By</th>
             <th></th>
           </tr>
           <tr></tr>
@@ -46,6 +47,7 @@
               {{url}}
               {{/if}}
             </td>{{#if  playlist.isOwner || playlist.isEditor}}
+            <td>{{addedBy.username}}</td>
             <td><span type="submit" on-click="deleteTrack:{{index}}" class="glyphicon glyphicon-trash pull-right"></span></td>{{/if}}
           </tr>{{/each}}
           {{#if  playlist.isOwner || playlist.isEditor}}

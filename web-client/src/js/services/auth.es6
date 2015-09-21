@@ -7,19 +7,23 @@ class Auth {
     this.config = config;
   }
 
-  login(username, password) {
-    // making use of es6 destructing here
-    let payload = (username && password) ? {username, password} : undefined;
-    return this.http.post(this.config.api + '/users/login', payload).then((response) => {
-
+  loginSuccess(response) {
       let accessToken = response.data.accessToken;
       let user = response.data.user;
-
+      console.log(response)
       this.store.local.set('accessToken', accessToken);
       this.store.memory.set('user', user);
-
       return user
-    });
+  }
+
+  login(username, password) {
+    // making use of es6 destructing here
+    let payload = {username, password};
+    return this.http.post(this.config.api + '/users/login', payload).then((response) => this.loginSuccess(response));
+  }
+
+  signUp(username, password) {
+    return this.http.post(this.config.api + '/users', {username, password}).then((response) => this.loginSuccess(response));
   }
 
   restoreLogin() {

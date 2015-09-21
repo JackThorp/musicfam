@@ -1,15 +1,21 @@
 .container
   .row
-    .col-xs-6.col-xs-offset-3(style='padding: 50px 0;')
-      h1(style='text-align:center;') Welcome To Playlist
+    .col-xs-12.col-sm-6.col-sm-offset-3(style='padding: 50px 0;')
+      h1(style='text-align:center;') MusicFam!
       h4(style='text-align:center;') COLLABORATIVE - PLAYLISTS - ONLINE
   .row
-    .col-xs-6.col-xs-offset-3
+    .col-xs-12.col-sm-6.col-sm-offset-3
+      | {{#if error}}
+      .alert.alert-info.text-center(role="alert") {{error}}
+      | {{/if}}
+  .row
+    .col-xs-12.col-sm-6.col-sm-offset-3
       form
         .form-group
           input.form-control(value="{{username}}" type="username" id="exampleInputEmail1" placeholder="Username")
                       
         .form-group
           input.form-control(value="{{password}}" type="password" id="exampleInputPassword1" placeholder="Password")
-
-        button.btn.btn-default(type="submit" on-click="signIn" disabled="{{false}}") Submit
+        .text-center
+          button.btn.btn-default(type="submit" on-click="signIn" disabled="{{false}}") Sign In
+          button.btn.btn-default(on-click="signUp" disabled="{{false}}") Sign Up

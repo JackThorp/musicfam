@@ -24,20 +24,33 @@ class Login {
       let password = this.ractive.get('password');
       this.signIn(username, password);
     });
+
+    this.ractive.on('signUp', () => {
+      let username = this.ractive.get('username');
+      let password = this.ractive.get('password'); 
+      this.signUp(username, password);
+    })
         
   }
 
   signIn(username, password) {
     this.auth.login(username, password)
-      .then((user) => this.goToHomeScreen(),
-            (err) => this.showError(err))
+      .then((user) => this.goToHomeScreen())
+      .catch((err) => this.showError(err));
+  }
+
+  signUp(username, password) {
+    this.auth.signUp(username, password)
+      .then((user) => this.goToHomeScreen())
+      .catch((err) => this.showError(err));
   }
 
   showError(err) {
-    this.ractive.set('showError', true);
+    this.ractive.set('error', err.data.message);
   }
 
   goToHomeScreen() {
+    console.log('boom')
     this.events.routing.transitionTo.dispatch('home', this);
   } 
 

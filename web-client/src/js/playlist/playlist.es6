@@ -68,7 +68,7 @@ class Playlist {
    
     // To Add and delete tracks simply modify the playlist and call cylinderListService.save(playlist);
     this.ractive.on('newTrack', (e, url) => {
-      this.playlist.tracks.push({url:url});
+      this.playlist.tracks.push({url:url, addedBy: this.loggedInUser._id});
       this.playlistService.save(this.playlist);
     });
 
@@ -109,8 +109,8 @@ class Playlist {
           width: '480',
           events: {
             'onReady': function(event) {
-              event.target.playVideo();
-              self.playNext();          
+              self.player.cueVideoById(self.playlist.tracks[self.currentVid].videoId)
+              self.currentVid++;
             },
             'onStateChange': function(event) {
               if (event.data == YT.PlayerState.ENDED) {
@@ -161,7 +161,6 @@ class Playlist {
 
   getPlaylist(id) {
     this.playlistService.find(id, this.loggedInUser._id).then((playlist) => {
-      console.log(playlist)
       this.playlist = playlist;
       this.ractive.set('playlist', this.playlist);
     });

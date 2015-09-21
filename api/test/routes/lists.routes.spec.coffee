@@ -120,6 +120,24 @@ describe 'Playlist API routes', ->
               expect(playlist.tracks[0].title).to.be.ok
               done()
     
+    it 'should populate addedBy field', (done) ->
+      request(app)
+        .post('/api/playlists')
+        .set('Content-Type', 'application/json')
+        .set('X-Auth-Token', authToken)
+        .send( name: "wagwan", tracks: [{url: 'www.rmf.com', addedBy: user2._id}])
+        .expect(200)
+        .end (err, res) ->
+          request(app)
+            .get('/api/playlists/' + res.body._id)
+            .expect(200)
+            .end (err, res) ->
+              if err then done err
+              playlist = res.body
+              expect(playlist.tracks).to.be.ok
+              expect(playlist.tracks[0].addedBy).to.be.ok
+              done()
+        
     it 'should be blocked if no authentication provided', (done) ->
       request(app)
         .post('/api/playlists')

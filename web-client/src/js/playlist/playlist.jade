@@ -2,7 +2,7 @@
 .container
   .row
     .col-xs-12
-      h1 {{playlist.name}}
+      h2 {{playlist.name}}
   .row
     .col-xs-12.col-md-8.col-md-offset-2
       .embed-responsive.embed-responsive-16by9
@@ -24,6 +24,7 @@
           tr
             th #
             th Tracks
+            th Added By
             th
           tr
         thead
@@ -39,6 +40,8 @@
               | {{url}}
               | {{/if}}
             | {{#if  playlist.isOwner || playlist.isEditor}}
+            td
+              {{addedBy.username}}
             td
               span.glyphicon.glyphicon-trash.pull-right(type="submit" on-click="deleteTrack:{{index}}")
             | {{/if}}

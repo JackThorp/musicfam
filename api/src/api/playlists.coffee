@@ -16,6 +16,7 @@ Playlists =
       .find({})
       .populate('editors', 'username')
       .populate('owner', 'username')
+      .populate('tracks.addedBy', 'username')
       .exec()
       .then (playlists) ->
         _.map playlists, (playlist) -> playlist.toObject {virtuals: true}
@@ -26,6 +27,7 @@ Playlists =
       .findById(options.id)
       .populate('editors', 'username')
       .populate('owner', 'username')
+      .populate('tracks.addedBy', 'username')
       .exec()
       .then (playlist) ->
         

@@ -2,7 +2,7 @@
 <nav role="navigation" class="navbar navbar-default navbar-static-top">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#/home" class="navbar-brand">PlayList</a>
+      <button type="button" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#/home" class="navbar-brand">MusicFam</a>
     </div>
     <div id="collapse-1" class="collapse navbar-collapse">
       <button on-click="logout" class="btn navbar-btn btn-danger pull-right">Logout</button>

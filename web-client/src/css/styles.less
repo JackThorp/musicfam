@@ -1,5 +1,6 @@
 @import "variables.less";
 @import "../../node_modules/bootstrap/less/bootstrap.less";
+@import "fonts.less";
 
 .videowrapper {
   float: none;
@@ -12,3 +13,69 @@
   margin: 0 auto;
   max-width: 100%;
 }
+
+body {
+	//background-color: @yellow;
+}
+
+.navbar-default .navbar-brand {
+  font-family: @font-primary;
+  font-size: 1.8em;
+  color: @colour-primary;
+}
+h1 {
+  font-family: @font-primary;
+  //text-transform: uppercase;
+  color: @colour-primary;
+  font-size: 4em;
+}
+
+h2 {
+  font-family: @font-primary;
+  color: @colour-primary;
+  font-size: 2em;
+}
+
+h3 {
+  font-family: @font-primary;
+  color: @colour-secondry;
+  //text-align: center;
+  font-size: 1.5em;
+}
+
+@media (min-width: @screen-sm-min) { 
+  h1 {
+    font-size: 6em;
+  }
+
+  h2 {
+    font-size: 3em;
+  }
+
+  h3 {
+    font-size: 2em;
+  }
+}
+
+@media (min-width: @screen-md-min) { 
+  h1 {
+    font-size: 8em;
+  }
+
+  h2 {
+    font-size: 3em;
+  }
+
+  h3 {
+    font-size: 2.5em;
+  }
+}
+
+
+
+
+
+/* h1 span {
+	background-color: @red;
+}
+*/

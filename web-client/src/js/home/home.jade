@@ -6,38 +6,56 @@
       table.table
         thead
           tr
-            th Name
-            th
+            th(style="width:70%") Name
+            th(style="width:25%") Owner
+            th(style="width:5%")
         tbody
           | {{#each playlists}}
-          | {{#if isOwner}}
+          | {{#if isOwner || isEditor}}
           tr
-            td 
+            td(style="width:70%") 
               a(href="#/playlist/{{_id}}") {{name}}
-            td
+            td(style="width:25%")
+              | {{#if isOwner}}
+              span.glyphicon.glyphicon-star-empty(aria-hidden="true")
+              |  You 
+              span.glyphicon.glyphicon-star-empty(aria-hidden="true")
+              | {{else}}
+              | {{owner.username}}
+              | {{/if}}
+            td(style="width:5%")
               span.glyphicon.glyphicon-trash.pull-right(aria-hidden="true" on-click="delPlaylist:{{this}}")
           | {{/if}}
           | {{/each}}
           tr
-            td
+            td(colspan=2, style="width:95%")
               input.form-control(type="text" placeholder="new list" value="{{newListName}}")
-            td
+            td(style="width:5%")
               button.btn.btn-block.btn-success.center-block(type="submit" on-click="addPlaylist:{{newListName}}") Add
   .row
+      .col-xs-12.col-sm-6
+        h3 Bishop, Look At This. . .
+      .col-xs-12.col-sm-3.col-sm-offset-3
+        .input-group(style="margin-top:20px;margin-bottom:10px")
+          input.form-control(type="text" placeholder="Search.." value="{{searchTerm}}")
+          span.input-group-btn
+            button.btn.btn-default(type="button")
+              span.glyphicon.glyphicon-search
+  
+  .row
       .col-xs-12
-        h3 Playlists by others
         table.table
           thead
             tr
               th Name
+              th Owner
           tbody
             | {{#each playlists}}
-            | {{#if !isOwner}}
+            | {{#if !(isOwner || isEditor || dontShow)}}
             tr
               td 
                 a(href="#/playlist/{{_id}}") {{name}}
-                  | {{#if isEditor}}
-                  span.glyphicon.glyphicon-star-empty.pull-right(aria-hidden="true")
-                  | {{/if}}
+              td(style="width:10%")
+                {{owner.username}}
             | {{/if}}
             | {{/each}}

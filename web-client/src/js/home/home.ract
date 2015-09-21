@@ -6,23 +6,28 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th></th>
+            <th style="width:70%">Name</th>
+            <th style="width:25%">Owner</th>
+            <th style="width:5%"></th>
           </tr>
         </thead>
         <tbody>
           {{#each playlists}}
-          {{#if isOwner}}
+          {{#if isOwner || isEditor}}
           <tr>
-            <td> <a href="#/playlist/{{_id}}">{{name}}</a></td>
-            <td><span aria-hidden="true" on-click="delPlaylist:{{this}}" class="glyphicon glyphicon-trash pull-right"></span></td>
+            <td style="width:70%"> <a href="#/playlist/{{_id}}">{{name}}</a></td>
+            <td style="width:25%">{{#if isOwner}}<span aria-hidden="true" class="glyphicon glyphicon-star-empty"></span> You <span aria-hidden="true" class="glyphicon glyphicon-star-empty"></span>{{else}}
+              {{owner.username}}
+              {{/if}}
+            </td>
+            <td style="width:5%"><span aria-hidden="true" on-click="delPlaylist:{{this}}" class="glyphicon glyphicon-trash pull-right"></span></td>
           </tr>{{/if}}
           {{/each}}
           <tr>
-            <td>
+            <td colspan="2" style="width:95%">
               <input type="text" placeholder="new list" value="{{newListName}}" class="form-control"/>
             </td>
-            <td>
+            <td style="width:5%">
               <button type="submit" on-click="addPlaylist:{{newListName}}" class="btn btn-block btn-success center-block">Add</button>
             </td>
           </tr>
@@ -31,21 +36,31 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <h3>Bishop, Look At This. . .</h3>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-sm-offset-3">
+      <div style="margin-top:20px;margin-bottom:10px" class="input-group">
+        <input type="text" placeholder="Search.." value="{{searchTerm}}" class="form-control"/><span class="input-group-btn">
+          <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button></span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-xs-12">
-      <h3>Playlists by others</h3>
       <table class="table">
         <thead>
           <tr>
             <th>Name</th>
+            <th>Owner</th>
           </tr>
         </thead>
         <tbody>
           {{#each playlists}}
-          {{#if !isOwner}}
+          {{#if !(isOwner || isEditor || dontShow)}}
           <tr>
-            <td> <a href="#/playlist/{{_id}}">
-                {{name}}
-                {{#if isEditor}}<span aria-hidden="true" class="glyphicon glyphicon-star-empty pull-right"></span>{{/if}}</a></td>
+            <td> <a href="#/playlist/{{_id}}">{{name}}</a></td>
+            <td style="width:10%">{{owner.username}}</td>
           </tr>{{/if}}
           {{/each}}
         </tbody>

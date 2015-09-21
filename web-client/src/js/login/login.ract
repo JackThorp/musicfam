@@ -1,13 +1,18 @@
 
 <div class="container">
   <div class="row">
-    <div style="padding: 50px 0;" class="col-xs-6 col-xs-offset-3">
-      <h1 style="text-align:center;">Welcome To Playlist</h1>
+    <div style="padding: 50px 0;" class="col-xs-12 col-sm-6 col-sm-offset-3">
+      <h1 style="text-align:center;">MusicFam!</h1>
       <h4 style="text-align:center;">COLLABORATIVE - PLAYLISTS - ONLINE</h4>
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-6 col-xs-offset-3">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">{{#if error}}
+      <div role="alert" class="alert alert-info text-center">{{error}}</div>{{/if}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
       <form>
         <div class="form-group">
           <input value="{{username}}" type="username" id="exampleInputEmail1" placeholder="Username" class="form-control"/>
@@ -15,7 +20,10 @@
         <div class="form-group">
           <input value="{{password}}" type="password" id="exampleInputPassword1" placeholder="Password" class="form-control"/>
         </div>
-        <button type="submit" on-click="signIn" disabled="{{false}}" class="btn btn-default">Submit</button>
+        <div class="text-center">
+          <button type="submit" on-click="signIn" disabled="{{false}}" class="btn btn-default">Sign In</button>
+          <button on-click="signUp" disabled="{{false}}" class="btn btn-default">Sign Up</button>
+        </div>
       </form>
     </div>
   </div>

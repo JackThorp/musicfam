@@ -21,9 +21,27 @@ class Home {
       template: html,
       partials: {navbar: navbar},
       data: {
-        user: this.loggedInUser
+        user: this.loggedInUser,
+        searchTerm: ''
       }
     });
+
+
+    // Filter out users to add as collaborators based on the search term
+    this.ractive.observe( 'searchTerm', (newValue) => {
+      
+      if(newValue.length == 0) {
+        this.playlists.forEach(function(pl){pl.dontShow = false});
+        return this.ractive.set('playlists', this.playlists);
+      } 
+      
+      this.playlists.forEach(function(pl) {
+        pl.dontShow = !_.contains(pl.name.toLowerCase(), newValue.toLowerCase())
+      })
+      
+      return this.ractive.set('playlists', this.playlists);
+    });
+
 
     this.ractive.on('addPlaylist', (e, name) => {
       this.playlistService.add({name});

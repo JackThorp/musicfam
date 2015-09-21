@@ -12,6 +12,10 @@ UrlSchema = new Schema
   url:
     type: String
     required: true
+
+  addedBy:
+    type: Schema.Types.ObjectId
+    ref:  'User'
     
 
 PlaylistSchema = new Schema
