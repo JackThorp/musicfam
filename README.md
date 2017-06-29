@@ -1,4 +1,4 @@
-# playlist.js
+# playlist.js a.k.a MusicFam!
 Alt playlist app using JS libraries and node backend.
 
 Objective of the application is to learn/practise:
